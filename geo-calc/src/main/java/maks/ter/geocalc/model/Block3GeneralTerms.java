@@ -1,8 +1,16 @@
 package maks.ter.geocalc.model;
 
+import lombok.Data;
 
+import javax.persistence.*;
+
+@Data
+@Entity
+@Table(name = "block3_general_terms")
 public class Block3GeneralTerms {
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long codeNumber;
   private String region;
   private long yearRes;
@@ -10,68 +18,4 @@ public class Block3GeneralTerms {
   private long studPop;
   private double admission;
   private double graduation;
-
-
-  public long getCodeNumber() {
-    return codeNumber;
-  }
-
-  public void setCodeNumber(long codeNumber) {
-    this.codeNumber = codeNumber;
-  }
-
-
-  public String getRegion() {
-    return region;
-  }
-
-  public void setRegion(String region) {
-    this.region = region;
-  }
-
-
-  public long getYearRes() {
-    return yearRes;
-  }
-
-  public void setYearRes(long yearRes) {
-    this.yearRes = yearRes;
-  }
-
-
-  public double getStud() {
-    return stud;
-  }
-
-  public void setStud(double stud) {
-    this.stud = stud;
-  }
-
-
-  public long getStudPop() {
-    return studPop;
-  }
-
-  public void setStudPop(long studPop) {
-    this.studPop = studPop;
-  }
-
-
-  public double getAdmission() {
-    return admission;
-  }
-
-  public void setAdmission(double admission) {
-    this.admission = admission;
-  }
-
-
-  public double getGraduation() {
-    return graduation;
-  }
-
-  public void setGraduation(double graduation) {
-    this.graduation = graduation;
-  }
-
 }
