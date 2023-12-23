@@ -3,36 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная</title>
-    <link href="/main.css" rel="stylesheet" type="text/css">
+    <link href="../static/main.css" rel="stylesheet" type="text/css">
 </head>
-<header>
-    <nav class="three">
-        <ul class="topmenu">
-            <li><a href="layouts/info_project.html">О проекте</a></li>
-            <li><a href="layouts/data.html">Данные<i class="fa fa-angle-down"></i></a>
-                <ul class="submenu">
-                    <li><a href="layouts/data_base.html">База данных</a></li>
-                </ul>
-            </li>
-            <li><a href="layouts/service.html">Сервисы<i class="fa fa-angle-down"></i></a>
-                <ul class="submenu">
-                    <li><a href="layouts/calculator.html">Калькулятор</a></li>
-                </ul>
-            </li>
-            <li><a href="layouts/researches.html">Исследования</a></li>
-            <li><a href="layouts/analytics.html">Аналитика</a></li>
-            <li><a href="layouts/news.html">Новости</a></li>
-            <li><a href="layouts/events.html">Мероприятия</a></li>
-            <li><a href="layouts/account.html">Личный кабинет</a></li>
-        </ul>
-    </nav>
+<header class="main-header" th:include="layouts/base_header.html">
+
 </header>
 
 <body>
 
 </body>
 
-<footer class="main-footer" th:include="layouts/base_footer.html">
+<!--<footer class="main-footer" th:include="layouts/base_footer.html">-->
 
-</footer>
+<!--</footer>-->
 </html>

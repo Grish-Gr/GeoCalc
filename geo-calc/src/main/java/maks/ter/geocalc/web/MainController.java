@@ -10,6 +10,58 @@ public class MainController {
 
     @GetMapping({"", "/home"})
     public String home() {
-        return "main";
+        return "/main";
     }
+
+    @GetMapping({"/account"})
+    public String account() {
+        return "account";
+    }
+
+    @GetMapping({"/analytics"})
+    public String analytics() {
+        return "analytics";
+    }
+
+    @GetMapping({"/calculator"})
+    public String calculator() {
+        return "calculator";
+    }
+
+    @GetMapping({"/data"})
+    public String data() {
+        return "data";
+    }
+
+    @GetMapping({"/data_base"})
+    public String data_base() {
+        return "data_base";
+    }
+
+    @GetMapping({"/events"})
+    public String events() {
+        return "events";
+    }
+
+    @GetMapping({"/info_project"})
+    public String info_project() {
+        return "info_project";
+    }
+
+    @GetMapping({"/news"})
+    public String news() {
+        return "news";
+    }
+
+    @GetMapping({"/researches"})
+    public String researches() {
+        return "researches";
+    }
+
+    @GetMapping({"/service"})
+    public String service() {
+        return "service";
+    }
+
+
 }
