@@ -48,6 +48,9 @@ public class MainApiController {
         PrintWriter writer = new PrintWriter("add_new_tables.txt", "UTF-8");
         System.out.println(tablesDto.tables);
 
+        writer.println("TRUNCATE TABLE region_data;");
+        writer.println("TRUNCATE TABLE city_data;");
+
         Session session = hibernateFactory.openSession();
 
         for (Class<?> cls: allClasses) {
@@ -66,7 +69,7 @@ public class MainApiController {
 
                 if (isRegionInfo(cls)) {
 
-                    sqlScript.append("INSERT INTO region_data VALUES\n");
+                    sqlScript.append("INSERT INTO region_data (region, category, date_entry, value) VALUES\n");
 
                     for (Object entity: dataList) {
                         String category = annTable.name();
@@ -88,7 +91,7 @@ public class MainApiController {
 
                 } else {
 
-                    sqlScript.append("INSERT INTO city_data VALUES\n");
+                    sqlScript.append("INSERT INTO city_data (city, category, date_entry, value) VALUES\n");
 
                     for (Object entity: dataList) {
                         String category = annTable.name();

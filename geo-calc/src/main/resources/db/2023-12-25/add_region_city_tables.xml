@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="add-region-city-tables" author="GrGrodov">
+        <createTable tableName="region_data">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="region" type="varchar(255)"/>
+            <column name="category" type="varchar(255)"/>
+            <column name="date_entry" type="date"/>
+            <column name="value" type="BIGINT"/>
+        </createTable>
+
+        <createTable tableName="city_data">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="city" type="varchar(255)"/>
+            <column name="category" type="varchar(255)"/>
+            <column name="date_entry" type="date"/>
+            <column name="value" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
