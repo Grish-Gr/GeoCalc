@@ -1,5 +1,6 @@
 package maks.ter.geocalc.web;
 
+import maks.ter.geocalc.repository.Block4Repo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -14,6 +15,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Table;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -38,22 +42,28 @@ public class MainApiController {
 
 
     @GetMapping("/convert-table")
-    public @ResponseBody void convertTable(@RequestBody TablesDto tablesDto) throws IllegalAccessException {
+    public @ResponseBody void convertTable(@RequestBody TablesDto tablesDto) throws IllegalAccessException, FileNotFoundException, UnsupportedEncodingException {
         Reflections reflections = new Reflections("maks.ter");
         Set<Class<?>> allClasses = reflections.getTypesAnnotatedWith(Entity.class);
-        Session session = hibernateFactory.openSession();
-        System.out.println(allClasses);
+        PrintWriter writer = new PrintWriter("add_new_tables.txt", "UTF-8");
         System.out.println(tablesDto.tables);
+
+        Session session = hibernateFactory.openSession();
+
         for (Class<?> cls: allClasses) {
             Table annTable = cls.getAnnotation(Table.class);
-            System.out.println(annTable.name());
+
             if (tablesDto.tables.contains(annTable.name())) {
+                System.out.println(annTable.name());
                 CriteriaBuilder cb = session.getCriteriaBuilder();
                 List<?> dataList = session.createSQLQuery(String.format("SELECT * FROM %s", annTable.name())).addEntity(cls).getResultList();
 
                 StringBuilder sqlScript = new StringBuilder();
-                System.out.println("<<<<<<<<<<<<<<<<<<<<<<< dataList");
-                System.out.println(dataList);
+
+                if (dataList.isEmpty()) {
+                    continue;
+                }
+
                 if (isRegionInfo(cls)) {
 
                     sqlScript.append("INSERT INTO region_data VALUES\n");
@@ -65,7 +75,7 @@ public class MainApiController {
                         String region = (String) fieldRegion.get(entity);
 
                         for (Field field: entity.getClass().getDeclaredFields()) {
-                            if (!field.getName().matches("[a-zA-Z]+[0-9]+")) {
+                            if (!field.getName().matches("[a-zA-Z]+_[0-9]+")) {
                                 continue;
                             }
                             field.setAccessible(true);
@@ -78,19 +88,42 @@ public class MainApiController {
 
                 } else {
 
+                    sqlScript.append("INSERT INTO city_data VALUES\n");
+
+                    for (Object entity: dataList) {
+                        String category = annTable.name();
+                        Field fieldRegion = Arrays.stream(entity.getClass().getDeclaredFields()).filter(field -> field.getName().equals("city")).findAny().get();
+                        fieldRegion.setAccessible(true);
+                        String region = (String) fieldRegion.get(entity);
+
+                        for (Field field: entity.getClass().getDeclaredFields()) {
+                            if (!field.getName().matches("[a-zA-Z]+_[0-9]+")) {
+                                continue;
+                            }
+                            field.setAccessible(true);
+                            LocalDate date = getDateByField(field);
+                            long valueField = (long) field.get(entity);
+
+                            sqlScript.append(String.format(", (\"%s\", \"%s\", \"%s\", %s)\n", region, category, date.format(DateTimeFormatter.ISO_DATE), valueField));
+                        }
+                    }
+
                 }
                 sqlScript.append(";");
-                System.out.println(sqlScript);
+
+                writer.println(sqlScript);
             }
         }
+
+        writer.close();
     }
 
     private LocalDate getDateByField(Field field) {
         String dateInField = field.getName();
-        int beginYear = dateInField.indexOf("2");
+        int beginYear = dateInField.indexOf("_");
 
         String monthInField = dateInField.substring(0, beginYear);
-        String yearInField = dateInField.substring(beginYear);
+        String yearInField = dateInField.substring(beginYear + 1);
 
         String stringDate = String.format("%s 1, %s", StringUtils.capitalize(monthInField), yearInField);
 
@@ -99,11 +132,7 @@ public class MainApiController {
     }
 
     private Boolean isRegionInfo(Class<?> cls) {
-        System.out.println("<<<<<<<<<<<<<<<<<<<<<< isRegionInfo");
-        return Arrays.stream(cls.getDeclaredFields()).anyMatch(field -> {
-            System.out.println(field.getName());
-            return field.getName().equals("region");
-        });
+        return Arrays.stream(cls.getDeclaredFields()).anyMatch(field -> field.getName().equals("region"));
     }
 
     record TablesDto(List<String> tables) {
