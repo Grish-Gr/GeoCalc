@@ -1,34 +1,38 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Add CSS and JS to Thymeleaf</title>
-  <link href="/base_header_layout.css" rel="stylesheet" type="text/css"/>
+  <link href="http://localhost:8080/styles/css/base_header_layout.css" rel="stylesheet" type="text/css"/>
 </head>
-<header>
-  <div th:fragment="base-header" id="base-header">
+<div class="base-header">
+
+  <div class="content-header">
     <nav class="three">
       <ul class="topmenu">
-        <li><a href="info_project.html">О проекте</a></li>
-        <li><a href="data.html">Данные<i class="fa fa-angle-down"></i></a>
+        <li><a href="/info_project">О проекте</a></li>
+        <li><a href="/data">Данные<i class="fa fa-angle-down"></i></a>
           <ul class="submenu">
-            <li><a href="data_base.html">База данных</a></li>
+            <li><a href="/data_base">База данных</a></li>
           </ul>
         </li>
-        <li><a href="service.html">Сервисы<i class="fa fa-angle-down"></i></a>
+        <li><a href="/service">Сервисы<i class="fa fa-angle-down"></i></a>
           <ul class="submenu">
-            <li><a href="calculator.html">Калькулятор</a></li>
+            <li><a href="/calculator">Калькулятор</a></li>
           </ul>
         </li>
-        <li><a href="researches.html">Исследования</a></li>
-        <li><a href="analytics.html">Аналитика</a></li>
-        <li><a href="news.html">Новости</a></li>
-        <li><a href="events.html">Мероприятия</a></li>
-        <li><a href="account.html">Личный кабинет</a></li>
+        <li><a href="/researches">Исследования</a></li>
+        <li><a href="/analytics">Аналитика</a></li>
+        <li><a href="/news">Новости</a></li>
+        <li><a href="/events">Мероприятия</a></li>
+        <li><a href="/account">Личный кабинет</a></li>
       </ul>
     </nav>
   </div>
-</header>
-<footer>
-  <div th:insert="layouts/base_header :: base-header"> </div>
-</footer>
+
+  <div class="info-header">
+
+  </div>
+
+</div>
 </html>
