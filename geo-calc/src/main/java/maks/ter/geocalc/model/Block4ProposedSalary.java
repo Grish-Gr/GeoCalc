@@ -1,12 +1,16 @@
 package maks.ter.geocalc.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "block4_proposed_salary")
 public class Block4ProposedSalary {
 
@@ -14,68 +18,68 @@ public class Block4ProposedSalary {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long codeNumber;
   private String region;
-  private long january2018;
-  private long february2018;
-  private long march2018;
-  private long april2018;
-  private long may2018;
-  private long june2018;
-  private long july2018;
-  private long august2018;
-  private long september2018;
-  private long october2018;
-  private long november2018;
-  private long december2018;
-  private long january2019;
-  private long february2019;
-  private long march2019;
-  private long april2019;
-  private long may2019;
-  private long june2019;
-  private long july2019;
-  private long august2019;
-  private long september2019;
-  private long october2019;
-  private long november2019;
-  private long december2019;
-  private long january2020;
-  private long february2020;
-  private long march2020;
-  private long april2020;
-  private long may2020;
-  private long june2020;
-  private long july2020;
-  private long august2020;
-  private long september2020;
-  private long october2020;
-  private long november2020;
-  private long december2020;
-  private long january2021;
-  private long february2021;
-  private long march2021;
-  private long april2021;
-  private long may2021;
-  private long june2021;
-  private long july2021;
-  private long august2021;
-  private long september2021;
-  private long october2021;
-  private long november2021;
-  private long december2021;
-  private long january2022;
-  private long february2022;
-  private long march2022;
-  private long april2022;
-  private long may2022;
-  private long june2022;
-  private long july2022;
-  private long august2022;
-  private long september2022;
-  private long october2022;
-  private long november2022;
-  private long december2022;
-  private long january2023;
-  private long february2023;
-  private long march2023;
-  private long april2023;
+  private Long January_2018;
+  private Long February_2018;
+  private Long March_2018;
+  private Long April_2018;
+  private Long May_2018;
+  private Long June_2018;
+  private Long July_2018;
+  private Long August_2018;
+  private Long September_2018;
+  private Long October_2018;
+  private Long November_2018;
+  private Long December_2018;
+  private Long January_2019;
+  private Long February_2019;
+  private Long March_2019;
+  private Long April_2019;
+  private Long May_2019;
+  private Long June_2019;
+  private Long July_2019;
+  private Long August_2019;
+  private Long September_2019;
+  private Long October_2019;
+  private Long November_2019;
+  private Long December_2019;
+  private Long January_2020;
+  private Long February_2020;
+  private Long March_2020;
+  private Long April_2020;
+  private Long May_2020;
+  private Long June_2020;
+  private Long July_2020;
+  private Long August_2020;
+  private Long September_2020;
+  private Long October_2020;
+  private Long November_2020;
+  private Long December_2020;
+  private Long January_2021;
+  private Long February_2021;
+  private Long March_2021;
+  private Long April_2021;
+  private Long May_2021;
+  private Long June_2021;
+  private Long July_2021;
+  private Long August_2021;
+  private Long September_2021;
+  private Long October_2021;
+  private Long November_2021;
+  private Long December_2021;
+  private Long January_2022;
+  private Long February_2022;
+  private Long March_2022;
+  private Long April_2022;
+  private Long May_2022;
+  private Long June_2022;
+  private Long July_2022;
+  private Long August_2022;
+  private Long September_2022;
+  private Long October_2022;
+  private Long November_2022;
+  private Long December_2022;
+  private Long January_2023;
+  private Long February_2023;
+  private Long March_2023;
+  private Long April_2023;
 }
