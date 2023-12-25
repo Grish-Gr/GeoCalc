@@ -3,6 +3,7 @@ package maks.ter.geocalc.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -22,7 +23,7 @@ public class CityData {
     private String category;
 
     @Column(name = "date_entry")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "value")
     private Long value;

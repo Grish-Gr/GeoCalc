@@ -22,16 +22,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EducationDataService {
+public class EducationDataService extends DataService {
+
+    private Block3DigitalEducationRepo block3DigitalEducationRepo;
+    private Block3GeneralTermsRepo block3GeneralTermsRepo;
 
     @Autowired
-    private Block3DigitalEducationRepo block3DigitalEducationRepo;
-    @Autowired
-    private Block3GeneralTermsRepo block3GeneralTermsRepo;
-    @Autowired
-    private Block5Repo block5Repo;
-    @Autowired
-    private DataUtils dataUtils;
+    public EducationDataService(DataUtils dataUtils,
+                                Block5Repo block5Repo,
+                                Block3DigitalEducationRepo block3DigitalEducationRepo,
+                                Block3GeneralTermsRepo block3GeneralTermsRepo
+    ) {
+        super(dataUtils, block5Repo);
+        this.block3DigitalEducationRepo = block3DigitalEducationRepo;
+        this.block3GeneralTermsRepo = block3GeneralTermsRepo;
+    }
 
     public List<EducationDetailsDto> getDataList(EducationDto educationDto) {
 
@@ -89,49 +94,5 @@ public class EducationDataService {
         Double graduation = dataUtils.getStandardDoubleValue(dataList.stream().map(Block3GeneralTerms::getGraduation).toList());
 
         return (stud + studPop + admission + graduation) / 4;
-    }
-
-    private Double getLevelLive(String region) {
-
-        long currentYear = Year.now().getValue() - 1;
-        List<Block5> dataList = new ArrayList<>();
-
-        while (dataList.isEmpty() || currentYear < 2000) {
-            dataList = block5Repo.findAllByYearResAndRegion(currentYear, region);
-            currentYear--;
-        }
-
-        Double realIncAver = dataUtils.getStandardLongValue(dataList.stream().map(Block5::getRealIncAver).toList());
-        Double realIncInd = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getRealIncInd).toList());
-        Double autoPop = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getAutoPop).toList());
-        Double housingPop = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getHousingPop).toList());
-        Double popPoverty = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getPopPoverty).toList());
-        Double consumSpend = dataUtils.getStandardLongValue(dataList.stream().map(Block5::getConsumSpend).toList());
-        Double housingSpend = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getHousingSpend).toList());
-        Double consumPriceInd = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getConsumPriceInd).toList());
-        Double indRealEst1 = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getIndRealEst1).toList());
-
-        return (realIncAver + realIncInd + autoPop + housingPop + popPoverty + consumSpend + housingSpend + consumPriceInd + indRealEst1) / 9;
-    }
-
-    private BigDecimal getMonthSalary(String region) {
-
-        Optional<Block5> dataInfo = block5Repo.findByRegion(region);
-        return dataInfo.map(block5 -> new BigDecimal(block5.getRealIncAver())).orElseGet(() -> new BigDecimal(0));
-    }
-
-    private MonthDataDto getMonthData(String region) {
-        Optional<Block5> dataInfo = block5Repo.findByRegion(region);
-
-        if (dataInfo.isEmpty()) {
-            return new MonthDataDto();
-        } else {
-            return MonthDataDto.builder()
-                    .monthSalary(new BigDecimal(dataInfo.get().getRealIncAver()))
-                    .monthExpense(new BigDecimal(dataInfo.get().getConsumSpend()))
-                    .indexPrice(dataInfo.get().getConsumPriceInd())
-                    .countPeopleMinSalary((long) dataInfo.get().getPopPoverty())
-                    .build();
-        }
     }
 }

@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface Block5Repo extends JpaRepository<Block5, Long> {
 
     List<Block5> findAllByYearResAndRegion(Long year, String region);
-    Optional<Block5> findByRegion(String region);
+    Optional<Block5> findByRegionAndOOrderByYearResDesc(String region);
 }
