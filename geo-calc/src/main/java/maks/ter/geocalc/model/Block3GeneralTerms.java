@@ -11,6 +11,7 @@ public class Block3GeneralTerms {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "code_numbers")
   private long codeNumber;
   private String region;
   private long yearRes;

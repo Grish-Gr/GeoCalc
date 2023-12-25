@@ -11,7 +11,7 @@ public class Block3DigitalEducation {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long codeNumber;
+  private long code_number;
   private String educationLevel;
   private String program;
   private String studyField;
