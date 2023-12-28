@@ -4,116 +4,67 @@
     <meta charset="UTF-8">
     <title>Калькулятор</title>
     <link href="http://localhost:8080/styles/css/calculator.css" rel="stylesheet" type="text/css">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#purpose-calc').on('change', function (e) {
+                var valueSelected = this.value;
+
+                if (valueSelected == 'EDUCATION') {
+                    $('#education-form').show()
+                    $('#employee-form').hide()
+                } else {
+                    $('#education-form').hide()
+                    $('#employee-form').show()
+                }
+            });
+        })
+
+    </script>
+
 </head>
 <header class="main-header" th:include="layouts/base_header.html">
 
 </header>
 <body>
 <div class="wrapper">
-    <form class="user_portrait">
-        <div>
-            <div>
-                <label>Возраст:</label><br>
-                <input type="radio" id="under_18" value="under-18" name="user_age"><label for="under_18" class="light"> < 18 </label><br>
-                <input type="radio" id="between_19_30" value="between_19_30" name="user_age"><label for="between_19_30" class="light">19 - 30 лет</label><br>
-                <input type="radio" id="between_31_45" value="between_31_45" name="user_age"><label for="between_31_45" class="light">31- 45 лет</label><br>
-                <input type="radio" id="between_46_60" value="between_46_60" name="user_age"><label for="between_46_60" class="light"></label>46 - 60 лет<br>
-                <input type="radio" id="over_61" value="over_61" name="user_age"><label for="over_61" class="light"></label> > 61 года <br>
-            </div>
+    <p th:text="${huy}"></p>
+    <select id="purpose-calc">
+        <option th:each="purp : ${purpose}" th:value="${purp.name()}" th:text="${purp.getTitle()}"></option>
+    </select>
 
-            <div>
-                <label>Пол:</label><br>
-                <input type="radio" id="male" value="male" name="user_sex"><label for="male" class="light"> Мужской </label><br>
-                <input type="radio" id="female" value="female" name="user_sex"><label for="female" class="light"> Женский </label><br>
-            </div>
+    <div id="education-form">
+        <form th:object="${educationRequest}" th:action="@{/ed-calculator}" method="get">
+            <select th:field="*{educationLevel}" id="educationLevel">
+                <option th:each="level : ${levelEducation}" th:value="${level}" th:text="${level.getDescription()}"></option>
+            </select>
 
-            <div>
-                <label>Регион:</label><br>
-                <select name="Region">
-                    <option value=" " >Пожалуйста выберите регион</option>
-                    <option>Свердловская область</option>
-                </select><br>
-            </div>
+            <select th:field="*{priority}">
+                <option th:each="prior : ${edPriority}" th:value="${prior}" th:text="${prior.getTitle()}"></option>
+            </select>
 
-            <div class="container1">
-                <div class="user_education">
-                    <label>Образование:</label><br>
-                    <input type="radio" id="school" value="school" name="user_education"><label for="school" class="light"> Школа </label><br>
-                    <input type="radio" id="bachelor" value="bachelor" name="user_education"><label for="bachelor" class="light"> Бакалавриат </label><br>
-                    <input type="radio" id="specialty" value="specialty" name="user_education"><label for="specialty" class="light"> Специалитет </label><br>
-                    <input type="radio" id="magistracy" value="magistracy" name="user_education"><label for="magistracy" class="light"> Магистратура </label><br>
-                </div>
+            <select th:field="*{maxResult}">
+                <option th:each="item : ${listMaxResults}" th:value="${item.getValue()}" th:text="${item.getDescription()}"></option>
+            </select>
 
+            <input type="submit" value="Поиск"/>
+        </form>
+    </div>
 
-                <div hidden class="user_field_education">
-                    <label>Сфера образования:</label><br>
-                    <input type="radio" id="it" value="it" name="user_field_education"><label for="it" class="light"> Сфера IT </label><br>
-                    <input type="radio" id="other" value="other" name="user_field_education"><label for="other" class="light"> Иная фера </label><br>
-                </div>
-            </div>
+    <div id="employee-form">
+        <form th:object="${employeeRequest}">
 
-            <div class="container2">
-                <div class="user_busyness">
-                    <label>Занятость:</label><br>
-                    <input type="radio" id="study" value="study" name="user_busyness"><label for="study" class="light"> Учёба </label><br>
-                    <input type="radio" id="work_for_hire" value="work_for_hire" name="user_busyness"><label for="work_for_hire" class="light"> Работа по найму </label><br>
-                    <input type="radio" id="businessman" value="businessman" name="user_busyness"><label for="businessman" class="light"> Предприниматель </label><br>
-                    <input type="radio" id="freelancer" value="freelancer" name="user_busyness"><label for="freelancer" class="light"> Фрилансер </label><br>
-                    <input type="radio" id="retiree" value="retiree" name="user_busyness"><label for="retiree" class="light"> Пенсионер </label><br>
-                </div>
-
-                <div hidden class="user_field_busyness">
-                    <label>Сфера Занятости:</label><br>
-                    <input type="radio" id="it" value="it" name="user_field_busyness"><label for="it" class="light"> Сфера IT </label><br>
-                    <input type="radio" id="other" value="other" name="user_field_busyness"><label for="other" class="light"> Иная фера </label><br>
-                </div>
-            </div>
-
-            <div id="user_goal" class="user_goal">
-                <label>Цель:</label><br>
-                <input type="radio" id="education_it" value="education_it" name="user_goal"><label for="education_it" class="light"> Получение образования в сфере IT </label><br>
-                <input type="radio" id="work_it" value="work_it" name="user_goal"><label for="work_it" class="light"> Получение работы в сфере IT </label><br>
-                <input type="radio" id="moving_another_region" value="moving_another_region" name="user_goal"><label for="moving_another_region" class="light"> Переезд в регион с высоким индексом цифровизации </label><br>
-
-            </div>
-
-            <div id="type_rating">
-                <label>Вариант выдачи списка регионов</label><br>
-                <input type="radio" id="top_10" value="top_10" name="type_rating"><label for="top_10" class="light"> Топ - 10 </label><br>
-                <input type="radio" id="top_20" value="top_20" name="type_rating"><label for="top_20" class="light"> Топ - 20 </label><br>
-                <input type="radio" id="top_30" value="top_30" name="type_rating"><label for="top_30" class="light"> Топ - 30 </label><br>
-                <input type="radio" id="all_region" value="all_region" name="type_rating"><label for="all_region" class="light"> Все регионы </label><br>
-
-            </div>
-
-            <h1 id="result"> Результат </h1>
-
-        </div>
-
-        <div hidden id="result_info">
-
-            <p id="goal"> Выбранная цель: </p>
-            <p id="education"> Уровень образования: </p>
-            <div id="criteria">
-                <label>Приоритетный критерий:</label><br>
-                <input type="radio" id="number_budget_seats" value="number_budget_seats" name="criteria"><label for="number_budget_seats" class="light"> Количество бюджетных мест</label><br>
-                <input type="radio" id="tuition_fees" value="tuition_fees" name="criteria"><label for="tuition_fees" class="light"> Стоимость обучения </label><br>
-                <input type="radio" id="number_contract_seats" value="number_contract_seats" name="criteria"><label for="number_contract_seats" class="light"> Количество контрактных мест </label><br>
-                <input type="radio" id="estimated_salary" value="estimated_salary" name="criteria"><label for="estimated_salary" class="light"> Предполагаемая заработная плата </label><br>
-                <input type="radio" id="number_vacancies" value="number_vacancies" name="criteria"><label for="number_vacancies" class="light"> Количество вакансий </label><br>
-                <input type="radio" id="moving_to_region" value="moving_to_region" name="criteria"><label for="moving_to_region" class="light"> Переезд в регион с высоким индексом цифровизации </label><br>
-
-            </div>
-            <p id="region"> Приоритетные регионы: </p>
-
-            <table id="result_table" border="1"></table>
-
-        </div>
-
-
-    </form>
+        </form>
+    </div>
 
 </div>
+<table>
+    <tr th:each="data: ${listDataResult}">
+        <td th:text="${data.getBudgetCount()}"/>
+    </tr>
+</table>
 
 <script src="http://localhost:8080/js/jquery3.7.1.js"></script>
 <script src="http://localhost:8080/js/calculator.js"></script>

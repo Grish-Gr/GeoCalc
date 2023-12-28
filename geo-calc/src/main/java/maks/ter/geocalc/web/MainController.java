@@ -1,8 +1,13 @@
 package maks.ter.geocalc.web;
 
+import maks.ter.geocalc.dto.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
@@ -21,11 +26,6 @@ public class MainController {
     @GetMapping({"/analytics"})
     public String analytics() {
         return "analytics";
-    }
-
-    @GetMapping({"/calculator"})
-    public String calculator() {
-        return "calculator";
     }
 
     @GetMapping({"/data"})
@@ -62,6 +62,4 @@ public class MainController {
     public String service() {
         return "service";
     }
-
-
 }

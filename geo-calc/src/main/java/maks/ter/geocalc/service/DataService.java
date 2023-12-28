@@ -26,9 +26,13 @@ public abstract class DataService {
         long currentYear = Year.now().getValue() - 1;
         List<Block5> dataList = new ArrayList<>();
 
-        while (dataList.isEmpty() || currentYear < 2000) {
+        while (dataList.isEmpty() && currentYear < 2018) {
             dataList = block5Repo.findAllByYearResAndRegion(currentYear, region);
             currentYear--;
+        }
+
+        if (dataList.isEmpty()) {
+            return null;
         }
 
         Double realIncAver = dataUtils.getStandardLongValue(dataList.stream().map(Block5::getRealIncAver).toList());
@@ -45,6 +49,7 @@ public abstract class DataService {
     }
 
     protected MonthDataDto getMonthData(String region) {
+
         Optional<Block5> dataInfo = block5Repo.findByRegionOrderByYearResDesc(region);
 
         if (dataInfo.isEmpty()) {

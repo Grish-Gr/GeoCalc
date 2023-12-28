@@ -42,17 +42,18 @@ public class EducationDataService extends DataService {
 
         List<Block3DigitalEducation> dataList;
         Pageable pageable = PageRequest.of(0, educationDto.getMaxResult());
-
+        System.out.println(educationDto.getEducationLevel().getDescription());
         if (educationDto.getPriority() == EdPriority.AMOUNT_CONTRACT) {
-            dataList = block3DigitalEducationRepo.findByOrderByMinContractAsc(pageable);
+            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByMinContractAsc(educationDto.getEducationLevel().getCode(), pageable);
         } else if (educationDto.getPriority() == EdPriority.CONTRACT_COUNT) {
-            dataList = block3DigitalEducationRepo.findByOrderByContractCountDesc(pageable);
+            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByContractCountDesc(educationDto.getEducationLevel().getCode(), pageable);
         } else {
-            dataList = block3DigitalEducationRepo.findByOrderByBudgetCountDesc(pageable);
+            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByBudgetCountDesc(educationDto.getEducationLevel().getCode(), pageable);
         }
 
         int rate = 1;
         List<EducationDetailsDto> result = new ArrayList<>();
+
         for (Block3DigitalEducation dataInfo: dataList) {
 
             MonthDataDto monthDataDto = getMonthData(dataInfo.getRegion());
@@ -74,7 +75,6 @@ public class EducationDataService extends DataService {
             result.add(educationDetailsDto);
         }
 
-
         return result;
     }
 
@@ -83,9 +83,13 @@ public class EducationDataService extends DataService {
         long currentYear = Year.now().getValue() - 1;
         List<Block3GeneralTerms> dataList = new ArrayList<>();
 
-        while (dataList.isEmpty() || currentYear < 2000) {
+        while (dataList.isEmpty() && currentYear < 2018) {
             dataList = block3GeneralTermsRepo.findAllByYearResAndRegion(currentYear, region);
             currentYear--;
+        }
+
+        if (dataList.isEmpty()) {
+            return null;
         }
 
         Double stud = dataUtils.getStandardDoubleValue(dataList.stream().map(Block3GeneralTerms::getStud).toList());
