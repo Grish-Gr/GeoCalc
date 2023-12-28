@@ -51,6 +51,7 @@ public class CalculatorController {
         model.addAttribute("listMaxResults", List.of(MaxResult.RESULT_10, MaxResult.RESULT_20, MaxResult.RESULT_30, MaxResult.ALL));
 
         model.addAttribute("listDataResult", educationDataService.getDataList(educationDto));
+        model.addAttribute("selectedEducationPriority", priority);
 
         return "calculator";
     }

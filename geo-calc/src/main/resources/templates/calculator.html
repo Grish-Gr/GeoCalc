@@ -60,11 +60,96 @@
     </div>
 
 </div>
-<table>
-    <tr th:each="data: ${listDataResult}">
-        <td th:text="${data.getBudgetCount()}"/>
-    </tr>
-</table>
+
+<div th:if="${selectedEducationPriority == 'AMOUNT_CONTRACT'}">
+    <!--используйте col-->
+    <table>
+        <tr>
+            <td>Рейтинг</td>
+            <td>Регион</td>
+            <td>Минимальная</td>
+            <td>Количество бюджет</td>
+            <td>Количество контр. мест</td>
+            <td>Общий уровень развития</td>
+            <td>Общий уровень жизни</td>
+            <td>Среднедуш</td>
+            <td>Потреб расходы</td>
+            <td>Индексы потреб</td>
+            <td>Числен насел</td>
+        </tr>
+        <tr th:each="item: ${listDataResult}">
+            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRegion()}">Регион</td>
+            <td th:text="${item.getMinPriceContract()}">Минимальная</td>
+            <td th:text="${item.getBudgetCount()}">Количество бюджет</td>
+            <td th:text="${item.getContractCount()}">Количество контр. мест</td>
+            <td th:text="${item.getLevelEducation()}">Общий уровень развития</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни</td>
+            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
+            <td th:text="${item.getMonthExpense()}">Потреб расходы</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потреб</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+        </tr>
+    </table>
+</div>
+<div th:if="${selectedEducationPriority == 'COUNT_BUDGET'}">
+    <table>
+        <tr>
+            <td>Рейтинг</td>
+            <td>Регион</td>
+            <td>Минимальная</td>
+            <td>Количество бюджет</td>
+            <td>Общий уровень развития</td>
+            <td>Общий уровень жизни</td>
+            <td>Среднедуш</td>
+            <td>Потреб расходы</td>
+            <td>Индексы потреб</td>
+            <td>Числен насел</td>
+        </tr>
+        <tr th:each="item: ${listDataResult}">
+            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRegion()}">Регион</td>
+            <td th:text="${item.getBudgetCount()}">Минимальная</td>
+            <td th:text="${item.getContractCount()}">Количество бюджет</td>
+            <td th:text="${item.getLevelEducation()}">Общий уровень развития</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни</td>
+            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
+            <td th:text="${item.getMonthExpense()}">Потреб расходы</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потреб</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+        </tr>
+    </table>
+</div>
+<div th:if="${selectedEducationPriority == 'CONTRACT_COUNT'}">
+    <table>
+        <tr>
+            <td>Рейтинг</td>
+            <td>Регион</td>
+            <td>Минимальная</td>
+            <td>Количество бюджет</td>
+            <td>Количество контр. мест</td>
+            <td>Общий уровень развития</td>
+            <td>Общий уровень жизни</td>
+            <td>Среднедуш</td>
+            <td>Потреб расходы</td>
+            <td>Индексы потреб</td>
+            <td>Числен насел</td>
+        </tr>
+        <tr th:each="item: ${listDataResult}">
+            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRegion()}">Регион</td>
+            <td th:text="${item.getMinPriceContract()}">Минимальная</td>
+            <td th:text="${item.getBudgetCount()}">Количество бюджет</td>
+            <td th:text="${item.getContractCount()}">Количество контр. мест</td>
+            <td th:text="${item.getLevelEducation()}">Общий уровень развития</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни</td>
+            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
+            <td th:text="${item.getMonthExpense()}">Потреб расходы</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потреб</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+        </tr>
+    </table>
+</div>
 
 <script src="http://localhost:8080/js/jquery3.7.1.js"></script>
 <script src="http://localhost:8080/js/calculator.js"></script>
