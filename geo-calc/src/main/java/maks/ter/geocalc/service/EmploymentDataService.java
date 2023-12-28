@@ -3,11 +3,9 @@ package maks.ter.geocalc.service;
 import liquibase.pro.packaged.A;
 import maks.ter.geocalc.dto.EdPriority;
 import maks.ter.geocalc.dto.EducationDto;
+import maks.ter.geocalc.dto.EmploymentDataType;
 import maks.ter.geocalc.dto.EmploymentDto;
-import maks.ter.geocalc.model.Block3DigitalEducation;
-import maks.ter.geocalc.model.CityData;
-import maks.ter.geocalc.model.DirectoryRegionsAndCities;
-import maks.ter.geocalc.model.RegionData;
+import maks.ter.geocalc.model.*;
 import maks.ter.geocalc.repository.Block5Repo;
 import maks.ter.geocalc.repository.CityDataRepo;
 import maks.ter.geocalc.repository.DirectoryRegionsAndCitiesRepo;
@@ -26,6 +24,8 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EmploymentDataService extends DataService {
@@ -50,12 +50,46 @@ public class EmploymentDataService extends DataService {
 
     public List<EmploymentDetailsDto> getDataList(EmploymentDto employmentDto) {
 
-        List<Block3DigitalEducation> dataList;
         Pageable pageable = PageRequest.of(0, employmentDto.getMaxResult());
+        List<EmploymentDetailsDto> result = new ArrayList<>();
 
-        //TODO сделать разграничение между ваканциями и средней зп
+        List<RegionData> dataList = employmentDto.getDataType() == EmploymentDataType.VACANCIES ?
+                regionDataRepo.findAllByCategoryAndOrderByValueDesc("block4_vacancies") :
+                regionDataRepo.findAllByCategoryAndOrderByValueDesc("block4_proposed_salary");
 
-        return new ArrayList<>();
+        Map<String, List<RegionData>> dataListByRegion = dataList.stream().collect(
+            Collectors.groupingBy(RegionData::getRegion)
+        );
+
+        int rate = 1;
+        for (Map.Entry<String, List<RegionData>> regionData: dataListByRegion.entrySet()) {
+
+            DirectoryRegionsAndCities cityInfo = regionsAndCitiesRepo.findByRegion(regionData.getKey());
+            MonthDataDto monthDataDto = getMonthData(regionData.getKey());
+
+            result.add(EmploymentDetailsDto.builder()
+                .rate(rate)
+                .region(regionData.getKey())
+                .statusLaborMarket(getStatusLaborMarket(regionData.getKey()))
+                .statusLaborMarketCapital(getStatusLaborMarketCapital(cityInfo))
+                .middleSalary(getMiddleSalary(regionData.getKey()))
+                .middleSalaryCapital(getMiddleSalaryCapital(cityInfo))
+                .middleCountVacancy(getMiddleCountVacancy(regionData.getKey()))
+                .middleCountVacancyCapital(getMiddleCountVacancyCapital(cityInfo))
+                .middleCountVacancyInd(getMiddleCountVacancyInd(regionData.getKey()))
+                .middleCountVacancyIndCapital(getMiddleCountVacancyIndCapital(cityInfo))
+                .levelLive(getLevelLive(regionData.getKey()))
+                .monthSalary(monthDataDto.getMonthSalary())
+                .monthExpense(monthDataDto.getMonthExpense())
+                .indexPrice(monthDataDto.getIndexPrice())
+                .countPeopleMinSalary(monthDataDto.getCountPeopleMinSalary())
+                .build()
+            );
+
+            rate++;
+        }
+
+        return result;
     }
 
     private Long getStatusLaborMarket(String region) {
