@@ -45,7 +45,7 @@ public abstract class DataService {
     }
 
     protected MonthDataDto getMonthData(String region) {
-        Optional<Block5> dataInfo = block5Repo.findByRegionAndOOrderByYearResDesc(region);
+        Optional<Block5> dataInfo = block5Repo.findByRegionOrderByYearResDesc(region);
 
         if (dataInfo.isEmpty()) {
             return new MonthDataDto();

@@ -54,8 +54,8 @@ public class EmploymentDataService extends DataService {
         List<EmploymentDetailsDto> result = new ArrayList<>();
 
         List<RegionData> dataList = employmentDto.getDataType() == EmploymentDataType.VACANCIES ?
-                regionDataRepo.findAllByCategoryAndOrderByValueDesc("block4_vacancies") :
-                regionDataRepo.findAllByCategoryAndOrderByValueDesc("block4_proposed_salary");
+                regionDataRepo.findAllByCategoryOrderByValueDesc("block4_vacancies") :
+                regionDataRepo.findAllByCategoryOrderByValueDesc("block4_proposed_salary");
 
         Map<String, List<RegionData>> dataListByRegion = dataList.stream().collect(
             Collectors.groupingBy(RegionData::getRegion)

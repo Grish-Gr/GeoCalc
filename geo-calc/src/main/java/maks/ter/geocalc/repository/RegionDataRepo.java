@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface RegionDataRepo extends JpaRepository<RegionData, Long> {
     List<RegionData> findAllByCategoryAndRegion(String category, String region);
-    List<RegionData> findAllByCategoryAndOrderByValueDesc(String category);
-    List<RegionData> findAllByCategoryAndOrderByValueAsc(String category);
+    List<RegionData> findAllByCategoryOrderByValueDesc(String category);
+    List<RegionData> findAllByCategoryOrderByValueAsc(String category);
 }
