@@ -1,123 +1,25 @@
 html, body {
-    font-family: 'Open Sans',sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 130%;
     letter-spacing: normal;
-    color: #2b2d42;
     margin: 0;
     padding: 0;
-    background: #f6f7fb;
+    background: #FFFFFF;
     width: 100%;
     height: 100%;
     min-width: 100%;
     min-height: 100%;
 }
 
-/* Верхняя плашка */
-h2 {
-    font-family: monospace;
-}
-nav {
-    width: 100%;
-}
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.topmenu > li {
-    display: inline-block;
-    margin-right: 20px;
-    position: relative;
-}
-.topmenu > li:last-child {
-    margin-right: 0;
-}
-a {
-    display: block;
-    padding: 10px 15px;
-    text-decoration: none;
-    outline: none;
-    font-family: 'Lora', serif;
-    transition: .5s linear;
-}
-.fa {
-    font-family: "FontAwesome";
-    color: inherit;
-    padding-left: 10px;
-}
-.submenu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    z-index: 10;
-    -webkit-transition: 0.5s ease-in-out;
-    -moz-transition: 0.5s ease-in-out;
-    -o-transition: 0.5s ease-in-out;
-    transition: 0.5s ease-in-out;
-}
-
-.three .submenu {
-    visibility: hidden;
-    opacity: 0;
-}
-.three ul li:hover .submenu {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Верхняя плашка */
-
-.text-page-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top:60px
-}
-
 .text-page-content {
-    width: 100%;
-    max-width: 978px;
+    font-weight: 50;
+    line-height: 100%;
+    color: #000000;
+    margin-left: 40px;
+    text-align: center;
+    font-family: "Arial", serif;
+    max-width: 640px;
     background: 0 0;
-}
+    font-size: 18px;
 
-.text-page-content h1 {
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 30px;
-    color: #384974;
-    margin-top: 0;
-    margin-bottom: 32px;
-}
-
-h1, h2, h3, h4, h5 {
-    line-height: 1.4;
-    font-weight: 700;
-    color: #384974;
-}
-
-h1 {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-}
-
-.text-page-content p {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 160%;
-    color: #384974;
-    margin-top: 0;
-    margin-bottom: 48px;
 }
 p {
     display: block;
@@ -125,4 +27,101 @@ p {
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
+}
+
+.platform-users {
+    margin-top: 60px;
+    margin-bottom: 50px;
+    background: #eeeeee;
+}
+
+.user-names{
+    margin: 20px 60px;
+    background: #FFFFFF;
+}
+
+.title_user{
+    font-size: 13px;
+    text-align: center;
+}
+
+.user_descr{
+    font-size: 10px;
+    max-width: 200px;
+    text-align: center;
+}
+
+.what_we_have_on_platform {
+    width: 90%;
+    margin: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 40px;
+    font-family: "Arial", serif;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.border {
+    font-size: 1.6rem;
+    display: grid;
+    place-items: center;
+    min-height: 50px;
+    border: 8px solid;
+    padding: 1rem;
+}
+
+.border_sec {
+    font-size: 1.6rem;
+    display: grid;
+    place-items: center;
+}
+.full {
+    border-image: linear-gradient(rebeccapurple, orange) 1;
+}
+
+.name_title_block{
+    font-family: "Arial", serif;
+    color: #FDB729;
+    font-style: italic;
+}
+
+.full-withradius {
+    font-family: "Arial", serif;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    background-clip: padding-box;
+    border: solid 8px transparent;
+    border-radius: 0.8rem;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        margin: -8px; /* same as border width */
+        border-radius: inherit; /* inherit container box's radius */
+        background: linear-gradient(to left, rebeccapurple, orange);
+    }
+}
+
+.name_block {
+    font-family: "Arial", serif;
+    color: #000000;
+    text-align: center;
+    line-height: 260%;
+    font-size: 24px;
+}
+
+.first_pic{
+    display:flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    margin-top: 30px;
+    margin-right: 50px;
+    float:right;
 }
