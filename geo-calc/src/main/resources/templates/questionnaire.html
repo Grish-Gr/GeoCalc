@@ -81,42 +81,9 @@
                 </div>
             </div>
 
-            <div id="user_goal" class="user_goal">
-                <label>Цель:</label><br>
-                <input type="radio" id="education_it" value="education_it" name="user_goal"><label for="education_it" class="light"> Получение образования в сфере IT </label><br>
-                <input type="radio" id="work_it" value="work_it" name="user_goal"><label for="work_it" class="light"> Получение работы в сфере IT </label><br>
-                <input type="radio" id="moving_another_region" value="moving_another_region" name="user_goal"><label for="moving_another_region" class="light"> Переезд в регион с высоким индексом цифровизации </label><br>
-            </div>
-
-            <div id="type_rating" class="block-name">
-                <label>Вариант выдачи списка регионов</label><br>
-                <input type="radio" id="top_10" value="top_10" name="type_rating"><label for="top_10" class="light"> Топ - 10 </label><br>
-                <input type="radio" id="top_20" value="top_20" name="type_rating"><label for="top_20" class="light"> Топ - 20 </label><br>
-                <input type="radio" id="top_30" value="top_30" name="type_rating"><label for="top_30" class="light"> Топ - 30 </label><br>
-                <input type="radio" id="all_region" value="all_region" name="type_rating"><label for="all_region" class="light"> Все регионы </label><br>
-
-            </div>
-            <h1 id="result"> Результат </h1>
+            <a href="/calculator">Получить результат</a>
         </div>
 
-        <div hidden id="result_info" class="block-name">
-
-            <p id="goal"> Выбранная цель: </p>
-            <p id="education"> Уровень образования: </p>
-            <div id="criteria">
-                <label>Приоритетный критерий:</label><br>
-                <input type="radio" id="number_budget_seats" value="number_budget_seats" name="criteria"><label for="number_budget_seats" class="light"> Количество бюджетных мест</label><br>
-                <input type="radio" id="tuition_fees" value="tuition_fees" name="criteria"><label for="tuition_fees" class="light"> Стоимость обучения </label><br>
-                <input type="radio" id="number_contract_seats" value="number_contract_seats" name="criteria"><label for="number_contract_seats" class="light"> Количество контрактных мест </label><br>
-                <input type="radio" id="estimated_salary" value="estimated_salary" name="criteria"><label for="estimated_salary" class="light"> Предполагаемая заработная плата </label><br>
-                <input type="radio" id="number_vacancies" value="number_vacancies" name="criteria"><label for="number_vacancies" class="light"> Количество вакансий </label><br>
-                <input type="radio" id="moving_to_region" value="moving_to_region" name="criteria"><label for="moving_to_region" class="light"> Переезд в регион с высоким индексом цифровизации </label><br>
-
-            </div>
-            <p id="region"> Приоритетные регионы: </p>
-
-            <table id="result_table" border="1"></table>
-        </div>
     </form>
 </div>
 

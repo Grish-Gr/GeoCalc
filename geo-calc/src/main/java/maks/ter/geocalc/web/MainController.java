@@ -1,20 +1,25 @@
 package maks.ter.geocalc.web;
 
-import maks.ter.geocalc.dto.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
 
     @GetMapping({"", "/home"})
-    public String home() {
+    public String home(HttpServletResponse response) throws IOException {
+        Cookie cookie = new Cookie("completed_questionnaire", "false");
+        cookie.setPath("/");
+        cookie.setMaxAge(86400);
+        response.addCookie(cookie);
+        response.setContentType("text/plain");
         return "/main";
     }
 
@@ -59,12 +64,15 @@ public class MainController {
     }
 
     @GetMapping({"/service"})
-    public String service() {
-        return "service";
-    }
+    public String service() { return "service"; }
 
     @GetMapping({"/questionnaire"})
-    public String questionnaire() {
-        return "questionnaire";
-    }
+    public String questionnaire(HttpServletResponse response) throws IOException {
+        Cookie cookie = new Cookie("completed_questionnaire", "false");
+        cookie.setPath("/");
+        cookie.setMaxAge(86400);
+        response.addCookie(cookie);
+        response.setContentType("text/plain");
+        return "questionnaire"; }
+
 }
