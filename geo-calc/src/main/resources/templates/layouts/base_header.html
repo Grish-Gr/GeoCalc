@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+<body>
 <head>
   <meta charset="UTF-8">
   <title>Add CSS and JS to Thymeleaf</title>
   <link href="http://localhost:8080/styles/css/base_header_layout.css" rel="stylesheet" type="text/css"/>
+  <div class="base-header">
+    <div class="content-header">
+      <nav class="wrap">
+        <ul class="topmenu">
+          <li><a href="/info_project">О ПРОЕКТЕ</a></li>
+          <li><a href="/data">ДАННЫЕ<i class="fa fa-angle-down"></i></a>
+            <ul class="submenu">
+              <li><a href="/data_base">БАЗА ДАННЫХ</a></li>
+            </ul>
+          </li>
+          <li><a href="/service">СЕРВИСЫ<i class="fa fa-angle-down"></i></a>
+            <ul class="submenu">
+              <li><a href="/questionnaire">КАЛЬКУЛЯТОР</a></li>
+            </ul>
+          </li>
+          <li><a href="/researches">ИССЛЕДОВАНИЯ</a></li>
+          <li><a href="/analytics">АНАЛИТИКА</a></li>
+          <li><a href="/news">НОВОСТИ</a></li>
+          <li><a href="/events">МЕРОПРИЯТИЯ</a></li>
+          <li><a href="/account">ЛИЧНЫЙ КАБИНЕТ</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="info-header">
+
+    </div>
+
+  </div>
 </head>
-<div class="base-header">
-
-  <div class="content-header">
-    <nav class="three">
-      <ul class="topmenu">
-        <li><a href="/info_project">О проекте</a></li>
-        <li><a href="/data">Данные<i class="fa fa-angle-down"></i></a>
-          <ul class="submenu">
-            <li><a href="/data_base">База данных</a></li>
-          </ul>
-        </li>
-        <li><a href="/service">Сервисы<i class="fa fa-angle-down"></i></a>
-          <ul class="submenu">
-            <li><a href="/calculator">Калькулятор</a></li>
-          </ul>
-        </li>
-        <li><a href="/researches">Исследования</a></li>
-        <li><a href="/analytics">Аналитика</a></li>
-        <li><a href="/news">Новости</a></li>
-        <li><a href="/events">Мероприятия</a></li>
-        <li><a href="/account">Личный кабинет</a></li>
-      </ul>
-    </nav>
-  </div>
-
-  <div class="info-header">
-
-  </div>
-
-</div>
+</body>
 </html>

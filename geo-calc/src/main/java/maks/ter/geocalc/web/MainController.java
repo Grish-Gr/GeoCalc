@@ -62,4 +62,9 @@ public class MainController {
     public String service() {
         return "service";
     }
+
+    @GetMapping({"/questionnaire"})
+    public String questionnaire() {
+        return "questionnaire";
+    }
 }
