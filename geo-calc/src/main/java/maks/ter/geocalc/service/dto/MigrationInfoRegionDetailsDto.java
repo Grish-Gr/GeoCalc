@@ -15,9 +15,9 @@ public class MigrationInfoRegionDetailsDto {
     private Double diRegion;
     private Double diPeople;
     private Double diBusiness;
-
     private Double diProfession;
-    private Double allDiEducation;
+
+    Double levelEducation;
 
     Double levelLive;
     BigDecimal monthSalary;

@@ -3,13 +3,9 @@ package maks.ter.geocalc.service;
 import maks.ter.geocalc.dto.MigrationInfoRegionDto;
 import maks.ter.geocalc.model.Block1;
 import maks.ter.geocalc.model.Block2;
-import maks.ter.geocalc.model.Block5;
+import maks.ter.geocalc.model.Block3GeneralTerms;
 import maks.ter.geocalc.model.RegionData;
-import maks.ter.geocalc.repository.Block1Repo;
-import maks.ter.geocalc.repository.Block2Repo;
-import maks.ter.geocalc.repository.Block5Repo;
-import maks.ter.geocalc.repository.RegionDataRepo;
-import maks.ter.geocalc.service.dto.EducationDetailsDto;
+import maks.ter.geocalc.repository.*;
 import maks.ter.geocalc.service.dto.MigrationInfoRegionDetailsDto;
 import maks.ter.geocalc.service.dto.MonthDataDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +22,23 @@ public class MigrationInfoRegionDataService extends DataService{
     private Block1Repo block1Repo;
     private Block2Repo block2Repo;
     private RegionDataRepo regionDataRepo;
+    private Block3GeneralTermsRepo block3GeneralTermsRepo;
 
     @Autowired
-    public MigrationInfoRegionDataService(DataUtils dataUtils, Block5Repo block5Repo, Block1Repo block1Repo, Block2Repo block2Repo, RegionDataRepo regionDataRepo) {
+    public MigrationInfoRegionDataService(
+            DataUtils dataUtils,
+            Block5Repo block5Repo,
+            Block1Repo block1Repo,
+            Block2Repo block2Repo,
+            RegionDataRepo regionDataRepo,
+            Block3GeneralTermsRepo block3GeneralTermsRepo
+    ) {
         super(dataUtils, block5Repo);
 
         this.block1Repo = block1Repo;
         this.block2Repo = block2Repo;
         this.regionDataRepo = regionDataRepo;
+        this.block3GeneralTermsRepo = block3GeneralTermsRepo;
     }
 
     public List<MigrationInfoRegionDetailsDto> getDataList(MigrationInfoRegionDto migrationInfoRegionDto) {
@@ -44,7 +49,7 @@ public class MigrationInfoRegionDataService extends DataService{
 
         for (Block1 dataInfo: dataList) {
 
-            if (result.size() >= migrationInfoRegionDto.getMaxResults()) {
+            if (result.size() >= migrationInfoRegionDto.getMaxResult()) {
                 break;
             }
 
@@ -67,6 +72,7 @@ public class MigrationInfoRegionDataService extends DataService{
                 .diPeople(diPeople)
                 .diBusiness(diBusiness)
                 .diProfession(diProfession)
+                .levelEducation(getEduEnv(dataInfo.getRegion()))
                 .levelLive(getLevelLive(dataInfo.getRegion()))
                 .monthSalary(monthData.getMonthSalary())
                 .monthSalary(monthData.getMonthExpense())
@@ -286,30 +292,77 @@ public class MigrationInfoRegionDataService extends DataService{
             }
         }
 
+
+        if (proposedSalary.isEmpty() || vacancies.isEmpty() || vacanciesInd.isEmpty() || hhIndex.isEmpty()) {
+            return null;
+        }
+
         Double proposedSalaryVal = dataUtils.getStandardLongValue(
             proposedSalary.stream().map(RegionData::getValue).toList(),
             proposedSalaryInYear.stream().map(RegionData::getValue).toList(),
-            allProposedSalary.stream().map(RegionData::getValue).toList()
+            new ArrayList<>(allProposedSalary.stream().map(RegionData::getValue).toList())
         );
 
         Double vacanciesVal = dataUtils.getStandardLongValue(
-                vacancies.stream().map(RegionData::getValue).toList(),
-                vacanciesInYear.stream().map(RegionData::getValue).toList(),
-                allVacancies.stream().map(RegionData::getValue).toList()
+            vacancies.stream().map(RegionData::getValue).toList(),
+            vacanciesInYear.stream().map(RegionData::getValue).toList(),
+            new ArrayList<>(allVacancies.stream().map(RegionData::getValue).toList())
         );
 
         Double vacanciesIndVal = dataUtils.getStandardLongValue(
-                vacanciesInd.stream().map(RegionData::getValue).toList(),
-                vacanciesIndInYear.stream().map(RegionData::getValue).toList(),
-                allVacanciesInd.stream().map(RegionData::getValue).toList()
+            vacanciesInd.stream().map(RegionData::getValue).toList(),
+            vacanciesIndInYear.stream().map(RegionData::getValue).toList(),
+            new ArrayList<>(allVacanciesInd.stream().map(RegionData::getValue).toList())
         );
 
         Double hhIndexVal = dataUtils.getStandardLongValue(
-                hhIndex.stream().map(RegionData::getValue).toList(),
-                hhIndexInYear.stream().map(RegionData::getValue).toList(),
-                allHhIndex.stream().map(RegionData::getValue).toList()
+            hhIndex.stream().map(RegionData::getValue).toList(),
+            hhIndexInYear.stream().map(RegionData::getValue).toList(),
+            new ArrayList<>(allHhIndex.stream().map(RegionData::getValue).toList())
         );
 
         return (proposedSalaryVal + vacanciesVal + vacanciesIndVal + hhIndexVal) / 4;
+    }
+
+    private Double getEduEnv(String region) {
+
+        long currentYear = Year.now().getValue() - 1;
+
+        List<Block3GeneralTerms> allData = block3GeneralTermsRepo.findAll();
+        List<Block3GeneralTerms> dataList = new ArrayList<>();
+        List<Block3GeneralTerms> dataListInYear = new ArrayList<>();
+
+        while (dataList.isEmpty() && currentYear < 2018) {
+            dataList = block3GeneralTermsRepo.findAllByYearResAndRegion(currentYear, region);
+            dataListInYear = block3GeneralTermsRepo.findAllByYearRes(currentYear);
+            currentYear--;
+        }
+
+        if (dataList.isEmpty()) {
+            return null;
+        }
+
+        Double stud = dataUtils.getStandardDoubleValue(
+                dataList.stream().map(Block3GeneralTerms::getStud).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getStud).toList(),
+                allData.stream().map(Block3GeneralTerms::getStud).toList()
+        );
+        Double studPop = dataUtils.getStandardLongValue(
+                dataList.stream().map(Block3GeneralTerms::getStudPop).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getStudPop).toList(),
+                allData.stream().map(Block3GeneralTerms::getStudPop).toList()
+        );
+        Double admission = dataUtils.getStandardDoubleValue(
+                dataList.stream().map(Block3GeneralTerms::getAdmission).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getAdmission).toList(),
+                allData.stream().map(Block3GeneralTerms::getAdmission).toList()
+        );
+        Double graduation = dataUtils.getStandardDoubleValue(
+                dataList.stream().map(Block3GeneralTerms::getGraduation).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getGraduation).toList(),
+                allData.stream().map(Block3GeneralTerms::getGraduation).toList()
+        );
+
+        return (stud + studPop + admission + graduation) / 4;
     }
 }

@@ -15,7 +15,7 @@ public class Block2 {
   @Column(name = "Код")
   private long codeNumber;
 
-  @Column(name = "Регион")
+  @Column(name = "Region")
   private String region;
 
   @Column(name = "Year_res")

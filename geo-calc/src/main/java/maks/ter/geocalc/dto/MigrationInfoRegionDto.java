@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MigrationInfoRegionDto {
-    int maxResults;
+    int maxResult;
 }
