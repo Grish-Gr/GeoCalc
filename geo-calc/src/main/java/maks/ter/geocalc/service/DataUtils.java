@@ -10,14 +10,18 @@ import java.util.stream.LongStream;
 @Component
 public class DataUtils {
 
-    public Double getStandardDoubleValue(List<Double> allValue) {
-        Collections.sort(allValue);
-        return getDoubleAverage(allValue) / (allValue.get(allValue.size() - 1) - allValue.get(0));
+    public Double getStandardDoubleValue(List<Double> valuesInRegion, List<Double> allValueInYear, List<Double> allValues) {
+
+        Collections.sort(allValues);
+
+        return (getDoubleAverage(valuesInRegion) - getDoubleAverage(allValueInYear)) / (allValues.get(allValues.size() - 1) - allValues.get(0));
     }
 
-    public Double getStandardLongValue(List<Long> allValue) {
-        Collections.sort(allValue);
-        return getLongAverage(allValue) / (allValue.get(allValue.size() - 1) - allValue.get(0));
+    public Double getStandardLongValue(List<Long> valuesInRegion, List<Long> allValueInYear, List<Long> allValues) {
+
+        Collections.sort(allValues);
+
+        return (getLongAverage(valuesInRegion) - getLongAverage(allValueInYear)) / (allValues.get(allValues.size() - 1) - allValues.get(0));
     }
 
     private Double getLongAverage(List<Long> value) {

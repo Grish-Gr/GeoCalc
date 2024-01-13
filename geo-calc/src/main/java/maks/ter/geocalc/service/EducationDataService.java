@@ -41,7 +41,6 @@ public class EducationDataService extends DataService {
     public List<EducationDetailsDto> getDataList(EducationDto educationDto) {
 
         List<Block3DigitalEducation> dataList;
-        Pageable pageable = PageRequest.of(0, educationDto.getMaxResult());
 
         if (educationDto.getPriority() == EdPriority.AMOUNT_CONTRACT) {
             dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByMinContractAsc(educationDto.getEducationLevel().getCode());
@@ -96,10 +95,14 @@ public class EducationDataService extends DataService {
     private Double getEduEnv(String region) {
 
         long currentYear = Year.now().getValue() - 1;
+
+        List<Block3GeneralTerms> allData = block3GeneralTermsRepo.findAll();
         List<Block3GeneralTerms> dataList = new ArrayList<>();
+        List<Block3GeneralTerms> dataListInYear = new ArrayList<>();
 
         while (dataList.isEmpty() && currentYear < 2018) {
             dataList = block3GeneralTermsRepo.findAllByYearResAndRegion(currentYear, region);
+            dataListInYear = block3GeneralTermsRepo.findAllByYearRes(currentYear);
             currentYear--;
         }
 
@@ -107,10 +110,26 @@ public class EducationDataService extends DataService {
             return null;
         }
 
-        Double stud = dataUtils.getStandardDoubleValue(dataList.stream().map(Block3GeneralTerms::getStud).toList());
-        Double studPop = dataUtils.getStandardLongValue(dataList.stream().map(Block3GeneralTerms::getStudPop).toList());
-        Double admission = dataUtils.getStandardDoubleValue(dataList.stream().map(Block3GeneralTerms::getAdmission).toList());
-        Double graduation = dataUtils.getStandardDoubleValue(dataList.stream().map(Block3GeneralTerms::getGraduation).toList());
+        Double stud = dataUtils.getStandardDoubleValue(
+                dataList.stream().map(Block3GeneralTerms::getStud).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getStud).toList(),
+                allData.stream().map(Block3GeneralTerms::getStud).toList()
+        );
+        Double studPop = dataUtils.getStandardLongValue(
+                dataList.stream().map(Block3GeneralTerms::getStudPop).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getStudPop).toList(),
+                allData.stream().map(Block3GeneralTerms::getStudPop).toList()
+        );
+        Double admission = dataUtils.getStandardDoubleValue(
+                dataList.stream().map(Block3GeneralTerms::getAdmission).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getAdmission).toList(),
+                allData.stream().map(Block3GeneralTerms::getAdmission).toList()
+        );
+        Double graduation = dataUtils.getStandardDoubleValue(
+                dataList.stream().map(Block3GeneralTerms::getGraduation).toList(),
+                dataListInYear.stream().map(Block3GeneralTerms::getGraduation).toList(),
+                allData.stream().map(Block3GeneralTerms::getGraduation).toList()
+        );
 
         return (stud + studPop + admission + graduation) / 4;
     }

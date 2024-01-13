@@ -24,10 +24,13 @@ public abstract class DataService {
     protected Double getLevelLive(String region) {
 
         long currentYear = Year.now().getValue() - 1;
+        List<Block5> allData = block5Repo.findAll();
         List<Block5> dataList = new ArrayList<>();
+        List<Block5> allDataListInYear = new ArrayList<>();
 
         while (dataList.isEmpty() && currentYear < 2018) {
             dataList = block5Repo.findAllByYearResAndRegion(currentYear, region);
+            allDataListInYear = block5Repo.findAllByYearRes(currentYear);
             currentYear--;
         }
 
@@ -35,15 +38,51 @@ public abstract class DataService {
             return null;
         }
 
-        Double realIncAver = dataUtils.getStandardLongValue(dataList.stream().map(Block5::getRealIncAver).toList());
-        Double realIncInd = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getRealIncInd).toList());
-        Double autoPop = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getAutoPop).toList());
-        Double housingPop = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getHousingPop).toList());
-        Double popPoverty = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getPopPoverty).toList());
-        Double consumSpend = dataUtils.getStandardLongValue(dataList.stream().map(Block5::getConsumSpend).toList());
-        Double housingSpend = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getHousingSpend).toList());
-        Double consumPriceInd = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getConsumPriceInd).toList());
-        Double indRealEst1 = dataUtils.getStandardDoubleValue(dataList.stream().map(Block5::getIndRealEst1).toList());
+        Double realIncAver = dataUtils.getStandardLongValue(
+            dataList.stream().map(Block5::getRealIncAver).toList(),
+            allDataListInYear.stream().map(Block5::getRealIncAver).toList(),
+            allData.stream().map(Block5::getRealIncAver).toList()
+        );
+        Double realIncInd = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getRealIncInd).toList(),
+            allDataListInYear.stream().map(Block5::getRealIncInd).toList(),
+            allData.stream().map(Block5::getRealIncInd).toList()
+        );
+        Double autoPop = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getAutoPop).toList(),
+            allDataListInYear.stream().map(Block5::getAutoPop).toList(),
+            allData.stream().map(Block5::getAutoPop).toList()
+        );
+        Double housingPop = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getHousingPop).toList(),
+            allDataListInYear.stream().map(Block5::getHousingPop).toList(),
+            allData.stream().map(Block5::getHousingPop).toList()
+        );
+        Double popPoverty = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getPopPoverty).toList(),
+            allDataListInYear.stream().map(Block5::getPopPoverty).toList(),
+            allData.stream().map(Block5::getPopPoverty).toList()
+        );
+        Double consumSpend = dataUtils.getStandardLongValue(
+            dataList.stream().map(Block5::getConsumSpend).toList(),
+            allDataListInYear.stream().map(Block5::getConsumSpend).toList(),
+            allData.stream().map(Block5::getConsumSpend).toList()
+        );
+        Double housingSpend = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getHousingSpend).toList(),
+            allDataListInYear.stream().map(Block5::getHousingSpend).toList(),
+            allData.stream().map(Block5::getHousingSpend).toList()
+        );
+        Double consumPriceInd = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getConsumPriceInd).toList(),
+            allDataListInYear.stream().map(Block5::getConsumPriceInd).toList(),
+            allData.stream().map(Block5::getConsumPriceInd).toList()
+        );
+        Double indRealEst1 = dataUtils.getStandardDoubleValue(
+            dataList.stream().map(Block5::getIndRealEst1).toList(),
+            allDataListInYear.stream().map(Block5::getIndRealEst1).toList(),
+            allData.stream().map(Block5::getIndRealEst1).toList()
+        );
 
         return (realIncAver + realIncInd + autoPop + housingPop + popPoverty + consumSpend + housingSpend + consumPriceInd + indRealEst1) / 9;
     }

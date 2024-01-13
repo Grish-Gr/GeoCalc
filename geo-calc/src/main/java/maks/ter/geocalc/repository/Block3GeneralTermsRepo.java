@@ -10,4 +10,5 @@ import java.util.List;
 public interface Block3GeneralTermsRepo extends JpaRepository<Block3GeneralTerms, Long> {
 
     List<Block3GeneralTerms> findAllByYearResAndRegion(Long year, String region);
+    List<Block3GeneralTerms> findAllByYearRes(Long year);
 }
