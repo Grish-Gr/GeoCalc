@@ -6,11 +6,11 @@ import maks.ter.geocalc.service.EmploymentDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -23,7 +23,13 @@ public class CalculatorController {
     private EmploymentDataService employmentDataService;
 
     @GetMapping({"/calculator"})
-    public String calculator(Model model) {
+    public String calculator(Model model, HttpServletResponse response) throws IOException {
+
+        Cookie cookie = new Cookie("completed_questionnaire", "true");
+        cookie.setPath("/");
+        cookie.setMaxAge(86400);
+        response.addCookie(cookie);
+        response.setContentType("text/plain");
 
         model.addAttribute("educationRequest", new EducationDto());
         model.addAttribute("employeeRequest", new EmploymentDto());
@@ -85,5 +91,15 @@ public class CalculatorController {
         model.addAttribute("typeTable", dataType);
 
         return "calculator";
+    }
+
+    @GetMapping({"/check-questionnaire"})
+    public String check_questionnaire(@CookieValue(value = "completed_questionnaire") String data, Model model, HttpServletResponse response) throws IOException {
+        if (data.equals("true")){
+            calculator(model, response);
+            return "calculator";
+        }
+
+        return "questionnaire";
     }
 }
