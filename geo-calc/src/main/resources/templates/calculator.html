@@ -7,11 +7,26 @@
     <link src="http://localhost:8080/styles/css/calculator.css" rel="stylesheet" type="text/css">
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <style>
-        table, th, td {
-            border: 1px solid black;
+        .table_amount_contract{
             border-collapse: collapse;
-            text-align: center;
+            font-size: 0.8em;
+            margin-top: 10px;
         }
+
+        .table_amount_contract thead tr{
+            background-color: #53377A;
+            font-weight: bold;
+            color: #FFFFFF;
+        }
+
+        .table_amount_contract th, .table_amount_contract td{
+            padding: 12px 15px;
+        }
+
+        .table_amount_contract tbody tr:nth-of-type(even){
+            border-bottom: 2px solid #53377A;
+        }
+
     </style>
 
     <script>
@@ -23,15 +38,9 @@
             if (href.toString().includes('em-calculator')) {
                 $('#education-form').hide()
                 $('#employee-form').show()
-                $('#di-form').hide()
-            } else if (href.toString().includes('ed-calculator')) {
+            } else {
                 $('#education-form').show()
                 $('#employee-form').hide()
-                $('#di-form').hide()
-            } else {
-                $('#education-form').hide()
-                $('#employee-form').hide()
-                $('#di-form').show()
             }
 
             $('#purpose-calc').on('change', function (e) {
@@ -40,15 +49,9 @@
                 if (valueSelected == 'EDUCATION') {
                     $('#education-form').show()
                     $('#employee-form').hide()
-                    $('#di-form').hide()
-                } else if (valueSelected == 'EMPLOYEE') {
-                    $('#education-form').hide()
-                    $('#employee-form').show()
-                    $('#di-form').hide()
                 } else {
                     $('#education-form').hide()
-                    $('#employee-form').hide()
-                    $('#di-form').show()
+                    $('#employee-form').show()
                 }
             });
         })
@@ -99,242 +102,193 @@
         </form>
     </div>
 
-    <div id="di-form">
-        <form id="di-calculator" th:object="${migrationInfoRequest}" th:action="@{/di-calculator}" method="get">
-
-            <select th:field="*{maxResult}">
-                <option th:each="item : ${listMaxResults}" th:value="${item.getValue()}" th:text="${item.getDescription()}"></option>
-            </select>
-
-            <input form="di-calculator" type="submit" value="Поиск"/>
-        </form>
-    </div>
-
 </div>
 
 <div th:if="${typeTable == 'AMOUNT_CONTRACT'}">
     <!--используйте col-->
-    <table>
+    <table class="table_amount_contract">
+        <thead>
         <tr>
-            <td>Рейтинг</td>
+            <td>Рейтинг регион по стоимости обучения на цифровые специальности</td>
             <td>Регион</td>
-            <td>Минимальная</td>
-            <td>Количество бюджет</td>
-            <td>Количество контр. мест</td>
-            <td>Общий уровень развития</td>
-            <td>Общий уровень жизни</td>
-            <td>Среднедуш</td>
-            <td>Потреб расходы</td>
-            <td>Индексы потреб</td>
-            <td>Числен насел</td>
+            <td>Минимальная стоимость контракта на обучение. руб.</td>
+            <td>Количество бюджетных мест на цифровые специальности</td>
+            <td>Количество контрактных мест на цифровые специальности</td>
+            <td>Общий уровень развития образовательной среды</td>
+            <td>Общий уровень жизни в регионе</td>
+            <td>Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td>Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td>Индексы потребительских цен (декабрь к декабрю предыдущего года: в процентах)</td>
+            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="item: ${listDataResult}">
-            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRate()}">Рейтинг регион по стоимости обучения на цифровые специальности</td>
             <td th:text="${item.getRegion()}">Регион</td>
-            <td th:text="${item.getMinPriceContract()}">Минимальная</td>
-            <td th:text="${item.getBudgetCount()}">Количество бюджет</td>
-            <td th:text="${item.getContractCount()}">Количество контр. мест</td>
-            <td th:text="${item.getLevelEducation()}">Общий уровень развития</td>
-            <td th:text="${item.getLevelLive()}">Общий уровень жизни</td>
-            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
-            <td th:text="${item.getMonthExpense()}">Потреб расходы</td>
-            <td th:text="${item.getIndexPrice()}">Индексы потреб</td>
-            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+            <td th:text="${item.getMinPriceContract()}">Минимальная стоимость контракта на обучение. руб.</td>
+            <td th:text="${item.getBudgetCount()}">Количество бюджетных мест на цифровые специальности</td>
+            <td th:text="${item.getContractCount()}">Количество контрактных мест на цифровые специальности</td>
+            <td th:text="${item.getLevelEducation()}">Общий уровень развития образовательной среды</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни в регионе</td>
+            <td th:text="${item.getMonthSalary()}">Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td th:text="${item.getMonthExpense()}">Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потребительских цен (декабрь к декабрю предыдущего года: в процентах)</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </tbody>
     </table>
 </div>
 <div th:if="${typeTable == 'COUNT_BUDGET'}">
-    <table>
+    <table class="table_amount_contract">
+        <thead>
         <tr>
-            <td>Рейтинг</td>
+            <td>Рейтинг региона по количеству бюджетных мест на цифровые специальности</td>
             <td>Регион</td>
-            <td>Минимальная</td>
-            <td>Количество бюджет</td>
-            <td>Общий уровень развития</td>
-            <td>Общий уровень жизни</td>
-            <td>Среднедуш</td>
-            <td>Потреб расходы</td>
-            <td>Индексы потреб</td>
-            <td>Числен насел</td>
+            <td>Минимальная стоимость контракта на обучение. руб.</td>
+            <td>Количество бюджетных мест на цифровые специальности</td>
+            <td>Общий уровень развития образовательной среды</td>
+            <td>Общий уровень жизни в регионе</td>
+            <td>Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td>Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td>Индексы потребительских цен (декабрь к декабрю предыдущего года: в процентах)</td>
+            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="item: ${listDataResult}">
-            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRate()}">Рейтинг региона по количеству бюджетных мест на цифровые специальности</td>
             <td th:text="${item.getRegion()}">Регион</td>
-            <td th:text="${item.getBudgetCount()}">Минимальная</td>
-            <td th:text="${item.getContractCount()}">Количество бюджет</td>
-            <td th:text="${item.getLevelEducation()}">Общий уровень развития</td>
-            <td th:text="${item.getLevelLive()}">Общий уровень жизни</td>
-            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
-            <td th:text="${item.getMonthExpense()}">Потреб расходы</td>
-            <td th:text="${item.getIndexPrice()}">Индексы потреб</td>
-            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+            <td th:text="${item.getMinPriceContract()}">Минимальная стоимость контракта на обучение. руб.</td>
+            <td th:text="${item.getBudgetCount()}">Количество бюджетных мест на цифровые специальности</td>
+            <td th:text="${item.getLevelEducation()}">Общий уровень развития образовательной среды</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни в регионе</td>
+            <td th:text="${item.getMonthSalary()}">Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td th:text="${item.getMonthExpense()}">Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потребительских цен (декабрь к декабрю предыдущего года: в процентах)</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </tbody>
     </table>
 </div>
 <div th:if="${typeTable == 'CONTRACT_COUNT'}">
-    <table>
+    <table class="table_amount_contract">
+        <thead>
         <tr>
-            <td>Рейтинг</td>
+            <td>Рейтинг региона по количеству контрактных мест на цифровые специальности</td>
             <td>Регион</td>
-            <td>Минимальная</td>
-            <td>Количество бюджет</td>
-            <td>Количество контр. мест</td>
-            <td>Общий уровень развития</td>
-            <td>Общий уровень жизни</td>
-            <td>Среднедуш</td>
-            <td>Потреб расходы</td>
-            <td>Индексы потреб</td>
-            <td>Числен насел</td>
+            <td>Минимальная стоимость контракта на обучение. руб.</td>
+            <td>Количество бюджетных мест на цифровые специальности</td>
+            <td>Количество контрактных мест на цифровые специальности</td>
+            <td>Общий уровень развития образовательной среды</td>
+            <td>Общий уровень жизни в регионе</td>
+            <td>Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td>Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td>Индексы потребительских цен (декабрь к декабрю предыдущего года: в процентах)</td>
+            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="item: ${listDataResult}">
-            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRate()}">Рейтинг региона по количеству контрактных мест на цифровые специальности</td>
             <td th:text="${item.getRegion()}">Регион</td>
-            <td th:text="${item.getMinPriceContract()}">Минимальная</td>
-            <td th:text="${item.getBudgetCount()}">Количество бюджет</td>
-            <td th:text="${item.getContractCount()}">Количество контр. мест</td>
-            <td th:text="${item.getLevelEducation()}">Общий уровень развития</td>
-            <td th:text="${item.getLevelLive()}">Общий уровень жизни</td>
-            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
-            <td th:text="${item.getMonthExpense()}">Потреб расходы</td>
-            <td th:text="${item.getIndexPrice()}">Индексы потреб</td>
-            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+            <td th:text="${item.getMinPriceContract()}">Минимальная стоимость контракта на обучение. руб.</td>
+            <td th:text="${item.getBudgetCount()}">Количество бюджетных мест на цифровые специальности</td>
+            <td th:text="${item.getContractCount()}">Количество контрактных мест на цифровые специальности</td>
+            <td th:text="${item.getLevelEducation()}">Общий уровень развития образовательной среды</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни в регионе</td>
+            <td th:text="${item.getMonthSalary()}">Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td th:text="${item.getMonthExpense()}">Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потребительских цен (декабрь к декабрю предыдущего года: в процентах)</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </tbody>
     </table>
 </div>
 
 <div th:if="${typeTable == 'PROPOSED_SALARY'}">
-    <table>
+    <table class="table_amount_contract">
+        <thead>
         <tr>
-            <td>Рейтинг</td>
+            <td>Рейтинг региона по предполагаемой заработной плате на цифровые профессии</td>
             <td>Регион</td>
-
-            <td>Средння зп в регионе</td>
-            <td>Средння зп в стол</td>
-
-            <td>Количество вакансий</td>
-            <td>Темп прироста кол вакансий</td>
-
-            <td>Количество вакансий в стол</td>
-            <td>Темп прироста кол вакансий в стол</td>
-
-            <td>Состояние рынка труда</td>
-            <td>Состояние рынка труда в стол</td>
-
-            <td>Общие уровень жизни </td>
-            <td>Среднедуш доходы</td>
-            <td>Среднедуш расходы</td>
-            <td>Инд потреб цен</td>
-            <td>Числ насел с ниже прож минимуму</td>
+            <td>Среднее значение предполагаемой заработной платы в регионе</td>
+            <td>Среднее значение предполагаемой заработной платы в столицу региона</td>
+            <td>Количество вакансий в регионе</td>
+            <td>Темп прироста количества вакансий в регионе предыдущему году. %</td>
+            <td>Количество вакансий в столице региона</td>
+            <td>Темп прироста вакансий в столице региона к предыдущему году. %</td>
+            <td>Состояние рынка труда в регионе по цифровым проффесиям</td>
+            <td>Состояние рынка труда в столице региона по цифровым проффесиям</td>
+            <td>Общий уровень жизни в регионе</td>
+            <td>Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td>Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td>Индексы потребительских цен (декабрь к декабрю предыдущего годы: в процентах)</td>
+            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </thead>
+        <tbody>
         <tr th:each="item: ${listDataResult2}">
-            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRate()}">Рейтинг региона по предполагаемой заработной плате на цифровые профессии</td>
             <td th:text="${item.getRegion()}">Регион</td>
+            <td th:text="${item.getMiddleSalary()}">Среднее значение предполагаемой заработной платы в регионе</td>
+            <td th:text="${item.getMiddleSalaryCapital()}">Среднее значение предполагаемой заработной платы в столицу региона</td>
+            <td th:text="${item.getMiddleCountVacancy()}">Количество вакансий в регионе</td>
+            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyInd(), 0, 2)}">Темп прироста количества вакансий в регионе предыдущему году. %</td>
+            <td th:text="${item.getMiddleCountVacancyCapital()}">Количество вакансий в столице региона</td>
+            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyIndCapital(), 0, 2)}">Темп прироста вакансий в столице региона к предыдущему году. %</td>
 
-            <td th:text="${item.getMiddleSalary()}">Минимальная</td>
-            <td th:text="${item.getMiddleSalaryCapital()}">Количество бюджет</td>
-
-            <td th:text="${item.getMiddleCountVacancy()}">Минимальная</td>
-            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyInd(), 0, 2)}">Количество бюджет</td>
-
-            <td th:text="${item.getMiddleCountVacancyCapital()}">Минимальная</td>
-            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyIndCapital(), 0, 2)}">Количество бюджет</td>
-
-            <td th:text="${item.getStatusLaborMarket()}">Общий уровень жизни</td>
-            <td th:text="${item.getStatusLaborMarketCapital()}">Среднедуш</td>
-
-            <td th:text="${item.getLevelLive()}">Числен насел</td>
-            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
-            <td th:text="${item.getMonthExpense()}">Индексы потреб</td>
-            <td th:text="${item.getIndexPrice()}">Числен насел</td>
-            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+            <td th:text="${item.getStatusLaborMarket()}">Состояние рынка труда в регионе по цифровым проффесиям</td>
+            <td th:text="${item.getStatusLaborMarketCapital()}">Cостояние рынка труда в столице региона по цифровым проффесиям</td>
+            <td th:text="${item.getLevelLive()}">Общий уровень жизни в регионе</td>
+            <td th:text="${item.getMonthSalary()}">Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td th:text="${item.getMonthExpense()}">Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потребительских цен (декабрь к декабрю предыдущего годы: в процентах)</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </tbody>
     </table>
 </div>
 <div th:if="${typeTable == 'VACANCIES'}">
-    <table>
+    <table class="table_amount_contract">
+        <thead>
         <tr>
-            <td>Рейтинг</td>
+            <td>Рейтинг региона по предполагаемой заработной плате на цифровые профессии</td>
             <td>Регион</td>
-
-            <td>Средння зп в регионе</td>
-            <td>Средння зп в стол</td>
-
-            <td>Количество вакансий</td>
-            <td>Темп прироста кол вакансий</td>
-
-            <td>Количество вакансий в стол</td>
-            <td>Темп прироста кол вакансий в стол</td>
-
-            <td>Состояние рынка труда</td>
-            <td>Состояние рынка труда в стол</td>
-
-            <td>Общие уровень жизни </td>
-            <td>Среднедуш доходы</td>
-            <td>Среднедуш расходы</td>
-            <td>Инд потреб цен</td>
-            <td>Числ насел с ниже прож минимуму</td>
+            <td>Среднее значение предполагаемой заработной платы в регионе</td>
+            <td>Среднее значение предполагаемой заработной платы в столицу региона</td>
+            <td>Количество вакансий в регионе</td>
+            <td>Темп прироста количества вакансий в регионе предыдущему году. %</td>
+            <td>Количество вакансий в столице региона</td>
+            <td>Темп прироста вакансий в столице региона к предыдущему году. %</td>
+            <td>Состояние рынка труда в регионе по цифровым проффесиям</td>
+            <td>Состояние рынка труда в столице региона по цифровым проффесиям</td>
+            <td>Общий уровень жизни в регионе</td>
+            <td>Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td>Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td>Индексы потребительских цен (декабрь к декабрю предыдущего годы: в процентах)</td>
+            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </thead>
+        <tbody></tbody>
         <tr th:each="item: ${listDataResult2}">
             <td th:text="${item.getRate()}">Рейтинг</td>
             <td th:text="${item.getRegion()}">Регион</td>
-
             <td th:text="${item.getMiddleSalary()}">Минимальная</td>
             <td th:text="${item.getMiddleSalaryCapital()}">Количество бюджет</td>
-
             <td th:text="${item.getMiddleCountVacancy()}">Минимальная</td>
-            <td th:text="${item.getMiddleCountVacancyInd()}">Количество бюджет</td>
-
+            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyInd(), 0, 2)}">Количество бюджет</td>
             <td th:text="${item.getMiddleCountVacancyCapital()}">Минимальная</td>
-            <td th:text="${item.getMiddleCountVacancyIndCapital()}">Количество бюджет</td>
-
-            <td th:text="${item.getStatusLaborMarket()}">Общий уровень жизни</td>
+            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyIndCapital(), 0, 2)}">Количество бюджет</td>
+            <td th:text="${item.getStatusLaborMarket()}">Общий уровень жизни в регионе</td>
             <td th:text="${item.getStatusLaborMarketCapital()}">Среднедуш</td>
-
             <td th:text="${item.getLevelLive()}">Числен насел</td>
-            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
-            <td th:text="${item.getMonthExpense()}">Индексы потреб</td>
-            <td th:text="${item.getIndexPrice()}">Числен насел</td>
-            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+            <td th:text="${item.getMonthSalary()}">Среднедушевые денежные доходы населения (в месяц: рублей)</td>
+            <td th:text="${item.getMonthExpense()}">Потребительские расходы в среднем на душу населения (в месяц: рублей)</td>
+            <td th:text="${item.getIndexPrice()}">Индексы потребительских цен (декабрь к декабрю предыдущего годы: в процентах)</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
-    </table>
-</div>
-<div th:if="${typeTable == 'MIGRATION'}">
-
-    <table>
-        <tr>
-            <td>Рейтинг региона по индексу цифровизации</td>
-            <td>Регион</td>
-            <td>Значение индекса цифровизации и региона</td>
-
-            <td>Значение индекса цифровизации населения региона</td>
-            <td>Значение индекса цифровизации бизнеса региона</td>
-            <td>Индекс цифровых профессий</td>
-
-            <td>Общий уровень развития образовательной среды</td>
-
-            <td>Общий уровень жизни в регионе</td>
-            <td>Среднедушевые денежные доходы населения (в месяц; рублей)</td>
-            <td>Потребительские расходы в срднем на душу насления (в месяц; рублей)</td>
-            <td>Индексы потребительских цен (декабрь к декабрю предыдущего года, в процентах)</td>
-            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/грацницы бедности (в процентах от общей численности населения субъекта)</td>
-        </tr>
-        <tr th:each="item: ${listDataResult3}">
-            <td th:text="${item.getRate()}">Рейтинг</td>
-            <td th:text="${item.getRegion()}">Регион</td>
-            <td th:text="${item.getDiRegion()}"></td>
-
-            <td th:text="${item.getDiPeople()}"></td>
-            <td th:text="${item.getDiBusiness()}"></td>
-            <td th:text="${item.getDiProfession()}"></td>
-
-            <td th:text="${item.getLevelEducation()}"></td>
-
-            <td th:text="${item.getLevelLive()}">Числен насел</td>
-            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
-            <td th:text="${item.getMonthExpense()}">Индексы потреб</td>
-            <td th:text="${item.getIndexPrice()}">Числен насел</td>
-            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
-        </tr>
+        </tbody>
     </table>
 </div>
 
@@ -342,3 +296,4 @@
 <script src="http://localhost:8080/js/calculator.js"></script>
 </body>
 </html>
+

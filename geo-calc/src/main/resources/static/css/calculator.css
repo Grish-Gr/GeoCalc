@@ -19,129 +19,12 @@ html, body {
     margin-bottom: 20px;
 }
 
-.user_portrait , .description{
-    margin-left: 40px;
-}
 
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-    text-align: center;
-}
 
-.block-name, .user_goal{
-    margin-top: 30px;
-}
-.region_title {
-    font-family: 'Arial',sans-serif;
-    line-height: normal;
 
-}
 
-div .wrapper {
-    padding: 5px 40px;
-}
 
-.container1, .container2{
-    display:flex;
-    flex-direction: row;
-    justify-content:flex-start;
-    margin-top: 30px;
-}
 
-.user_field_education, .user_field_busyness{
-    margin-left: 50px;
-}
 
-styled-select::-ms-expand {
-    display: none;
-}
 
-.styled-select {
-    position: relative;
-    display: flex;
-    width: 20em;
-    height: 3em;
-    border-radius: .25em;
-    overflow: hidden;
-}
 
-.styled-select::after {
-    content: '\25BC';
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 1em;
-    background-color: #34495e;
-    transition: .25s all ease;
-    pointer-events: none;
-}
-
-.styled-select:hover::after {
-    color: #f39c12;
-}
-
-.container {
-    position : absolute;
-    top: 50%;
-    left : 50%;
-    transform :
-            translate(-50%,-50%);
-}
-
-fieldset {
-    margin: 50px;
-    padding: 20px;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    display: inline-block;
-    border: none;
-}
-
-legend {
-    font-size: 28px;
-    font-weight: bold;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(2px);
-    border-radius: 20px;
-    padding: 10px 20px;
-    color: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
-
-input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #000000;
-    border-radius: 50%;
-    margin-right: 10px;
-    background-color: transparent;
-    position: relative;
-    top: 6px;
-}
-
-input[type="radio"]:checked::before {
-    content: "";
-    display: block;
-    width: 10px;
-    height: 10px;
-    background-color: #FDB729;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: appear 0.8s;
-}
-
-.name_of_page{
-    font-family: "Arial", serif;
-    color: #FDB729;
-    margin-left: 40px;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    text-align: center;
-}
