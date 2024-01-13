@@ -4,7 +4,15 @@
     <meta charset="UTF-8">
     <title>Калькулятор</title>
 
+    <link src="http://localhost:8080/styles/css/calculator.css" rel="stylesheet" type="text/css">
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
 
     <script>
 
@@ -247,11 +255,13 @@
             <td th:text="${item.getRegion()}">Регион</td>
 
             <td th:text="${item.getMiddleSalary()}">Минимальная</td>
-            <td th:text="${item.getMiddleCountVacancyInd()}">Количество бюджет</td>
+            <td th:text="${item.getMiddleSalaryCapital()}">Количество бюджет</td>
 
-            <td th:text="${item.getMiddleSalaryCapital()}">Минимальная</td>
-            <td th:text="${item.getMiddleCountVacancyIndCapital()}">Количество бюджет</td>
+            <td th:text="${item.getMiddleCountVacancy()}">Минимальная</td>
+            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyInd(), 0, 2)}">Количество бюджет</td>
 
+            <td th:text="${item.getMiddleCountVacancyCapital()}">Минимальная</td>
+            <td th:text="${#numbers.formatDecimal(item.getMiddleCountVacancyIndCapital(), 0, 2)}">Количество бюджет</td>
 
             <td th:text="${item.getStatusLaborMarket()}">Общий уровень жизни</td>
             <td th:text="${item.getStatusLaborMarketCapital()}">Среднедуш</td>

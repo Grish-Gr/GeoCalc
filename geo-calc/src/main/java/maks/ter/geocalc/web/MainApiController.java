@@ -1,6 +1,10 @@
 package maks.ter.geocalc.web;
 
+import maks.ter.geocalc.model.CityData;
+import maks.ter.geocalc.model.RegionData;
 import maks.ter.geocalc.repository.Block4Repo;
+import maks.ter.geocalc.repository.CityDataRepo;
+import maks.ter.geocalc.repository.RegionDataRepo;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -31,6 +35,10 @@ import java.util.*;
 public class MainApiController {
 
     private SessionFactory hibernateFactory;
+    @Autowired
+    private RegionDataRepo regionDataRepo;
+    @Autowired
+    private CityDataRepo cityDataRepo;
 
     @Autowired
     public MainApiController(EntityManagerFactory factory) {
@@ -47,6 +55,8 @@ public class MainApiController {
         Set<Class<?>> allClasses = reflections.getTypesAnnotatedWith(Entity.class);
         PrintWriter writer = new PrintWriter("add_new_tables.txt", "UTF-8");
         System.out.println(tablesDto.tables);
+        regionDataRepo.deleteAll();
+        cityDataRepo.deleteAll();
 
         writer.println("TRUNCATE TABLE region_data;");
         writer.println("TRUNCATE TABLE city_data;");
@@ -61,15 +71,11 @@ public class MainApiController {
                 CriteriaBuilder cb = session.getCriteriaBuilder();
                 List<?> dataList = session.createSQLQuery(String.format("SELECT * FROM %s", annTable.name())).addEntity(cls).getResultList();
 
-                StringBuilder sqlScript = new StringBuilder();
-
                 if (dataList.isEmpty()) {
                     continue;
                 }
 
                 if (isRegionInfo(cls)) {
-
-                    sqlScript.append("INSERT INTO region_data (region, category, date_entry, value) VALUES\n");
 
                     for (Object entity: dataList) {
                         String category = annTable.name();
@@ -85,13 +91,11 @@ public class MainApiController {
                             LocalDate date = getDateByField(field);
                             long valueField = (long) field.get(entity);
 
-                            sqlScript.append(String.format(", (\"%s\", \"%s\", \"%s\", %s)\n", region, category, date.format(DateTimeFormatter.ISO_DATE), valueField));
+                            regionDataRepo.save(new RegionData(region, category, date, valueField));
                         }
                     }
 
                 } else {
-
-                    sqlScript.append("INSERT INTO city_data (city, category, date_entry, value) VALUES\n");
 
                     for (Object entity: dataList) {
                         String category = annTable.name();
@@ -107,18 +111,15 @@ public class MainApiController {
                             LocalDate date = getDateByField(field);
                             long valueField = (long) field.get(entity);
 
-                            sqlScript.append(String.format(", (\"%s\", \"%s\", \"%s\", %s)\n", region, category, date.format(DateTimeFormatter.ISO_DATE), valueField));
+                            cityDataRepo.save(new CityData(region, category, date, valueField));
                         }
                     }
 
                 }
-                sqlScript.append(";");
-
-                writer.println(sqlScript);
             }
         }
 
-        writer.close();
+        System.out.println("Complete import");
     }
 
     private LocalDate getDateByField(Field field) {

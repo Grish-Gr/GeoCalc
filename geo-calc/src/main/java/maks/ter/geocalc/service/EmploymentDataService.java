@@ -1,6 +1,5 @@
 package maks.ter.geocalc.service;
 
-import liquibase.pro.packaged.A;
 import maks.ter.geocalc.dto.EdPriority;
 import maks.ter.geocalc.dto.EducationDto;
 import maks.ter.geocalc.dto.EmploymentDataType;
@@ -56,28 +55,38 @@ public class EmploymentDataService extends DataService {
                 regionDataRepo.findAllByCategoryOrderByValueDesc("block4_vacancies") :
                 regionDataRepo.findAllByCategoryOrderByValueDesc("block4_proposed_salary");
 
-        Map<String, List<RegionData>> dataListByRegion = dataList.stream().collect(
-            Collectors.groupingBy(RegionData::getRegion)
-        );
+
+        List<String> regionNamesListData = new ArrayList<>();
+
+        for (RegionData regionData: dataList) {
+
+            if (regionNamesListData.size() >= employmentDto.getMaxResult()) {
+                break;
+            }
+
+            if (!regionNamesListData.contains(regionData.getRegion())) {
+                regionNamesListData.add(regionData.getRegion());
+            }
+        }
 
         int rate = 1;
-        for (Map.Entry<String, List<RegionData>> regionData: dataListByRegion.entrySet().stream().toList().subList(0, employmentDto.getMaxResult())) {
+        for (String region: regionNamesListData) {
 
-            DirectoryRegionsAndCities cityInfo = regionsAndCitiesRepo.findByRegion(regionData.getKey());
-            MonthDataDto monthDataDto = getMonthData(regionData.getKey());
+            DirectoryRegionsAndCities cityInfo = regionsAndCitiesRepo.findByRegion(region);
+            MonthDataDto monthDataDto = getMonthData(region);
 
             result.add(EmploymentDetailsDto.builder()
                 .rate(rate)
-                .region(regionData.getKey())
-                .statusLaborMarket(getStatusLaborMarket(regionData.getKey()))
+                .region(region)
+                .statusLaborMarket(getStatusLaborMarket(region))
                 .statusLaborMarketCapital(getStatusLaborMarketCapital(cityInfo))
-                .middleSalary(getMiddleSalary(regionData.getKey()))
+                .middleSalary(getMiddleSalary(region))
                 .middleSalaryCapital(getMiddleSalaryCapital(cityInfo))
-                .middleCountVacancy(getMiddleCountVacancy(regionData.getKey()))
+                .middleCountVacancy(getMiddleCountVacancy(region))
                 .middleCountVacancyCapital(getMiddleCountVacancyCapital(cityInfo))
-                .middleCountVacancyInd(getMiddleCountVacancyInd(regionData.getKey()))
+                .middleCountVacancyInd(getMiddleCountVacancyInd(region))
                 .middleCountVacancyIndCapital(getMiddleCountVacancyIndCapital(cityInfo))
-                .levelLive(getLevelLive(regionData.getKey()))
+                .levelLive(getLevelLive(region))
                 .monthSalary(monthDataDto.getMonthSalary())
                 .monthExpense(monthDataDto.getMonthExpense())
                 .indexPrice(monthDataDto.getIndexPrice())
@@ -147,8 +156,7 @@ public class EmploymentDataService extends DataService {
     }
 
     private Long getMiddleSalaryCapital(DirectoryRegionsAndCities regionData) {
-        System.out.println("<<<<<<<<<<<< mid sala cap");
-        System.out.println(regionData);
+
         if (regionData == null) {
             return null;
         }
@@ -160,7 +168,7 @@ public class EmploymentDataService extends DataService {
         for (CityData cityData : resultData) {
             sum += cityData.getValue();
         }
-        System.out.println(sum);
+
         if (resultData.isEmpty()) {
             return null;
         }
@@ -170,7 +178,7 @@ public class EmploymentDataService extends DataService {
 
     private Long getMiddleCountVacancy(String region) {
 
-        List<RegionData> resultData = regionDataRepo.findAllByCategoryAndRegion("block4_resumes", region).stream().
+        List<RegionData> resultData = regionDataRepo.findAllByCategoryAndRegion("block4_vacancies", region).stream().
                 filter(regionData -> regionData.getDate().isAfter(LocalDate.now().minusYears(1))).toList();
 
         Long sum = 0L;

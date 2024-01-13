@@ -1,7 +1,8 @@
 package maks.ter.geocalc.model;
 
-import liquibase.pro.packaged.C;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,6 +10,8 @@ import java.util.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "region_data")
 public class RegionData {
 
@@ -28,4 +31,11 @@ public class RegionData {
 
     @Column(name = "value")
     private Long value;
+
+    public RegionData(String region, String category, LocalDate date, Long value) {
+        this.region = region;
+        this.category = category;
+        this.date = date;
+        this.value = value;
+    }
 }

@@ -1,6 +1,8 @@
 package maks.ter.geocalc.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +10,8 @@ import java.util.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "city_data")
 public class CityData {
 
@@ -27,4 +31,12 @@ public class CityData {
 
     @Column(name = "value")
     private Long value;
+
+
+    public CityData(String city, String category, LocalDate date, Long value) {
+        this.city = city;
+        this.category = category;
+        this.date = date;
+        this.value = value;
+    }
 }

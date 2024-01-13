@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "dirctory_regions_and_cities")
+@Table(name = "directory_regions_and_cities")
 public class DirectoryRegionsAndCities {
 
   @Id
@@ -14,6 +14,7 @@ public class DirectoryRegionsAndCities {
   @Column(name = "code_number")
   private long codeNumber;
 
+  @Column(name = "region")
   private String region;
 
   @Column(name = "fed_district")

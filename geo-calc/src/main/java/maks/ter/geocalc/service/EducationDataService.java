@@ -44,17 +44,31 @@ public class EducationDataService extends DataService {
         Pageable pageable = PageRequest.of(0, educationDto.getMaxResult());
 
         if (educationDto.getPriority() == EdPriority.AMOUNT_CONTRACT) {
-            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByMinContractAsc(educationDto.getEducationLevel().getCode(), pageable);
+            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByMinContractAsc(educationDto.getEducationLevel().getCode());
         } else if (educationDto.getPriority() == EdPriority.CONTRACT_COUNT) {
-            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByContractCountDesc(educationDto.getEducationLevel().getCode(), pageable);
+            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByContractCountDesc(educationDto.getEducationLevel().getCode());
         } else {
-            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByBudgetCountDesc(educationDto.getEducationLevel().getCode(), pageable);
+            dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByBudgetCountDesc(educationDto.getEducationLevel().getCode());
+        }
+
+        List<Block3DigitalEducation> finalDataInfoList = new ArrayList<Block3DigitalEducation>();
+
+        for (Block3DigitalEducation block3DigitalEducation: dataList) {
+
+            if (finalDataInfoList.size() >= educationDto.getMaxResult()) {
+                break;
+            }
+
+            boolean isExist = finalDataInfoList.stream().anyMatch(data -> data.getRegion().equals(block3DigitalEducation.getRegion()));
+            if (!isExist) {
+                finalDataInfoList.add(block3DigitalEducation);
+            }
         }
 
         int rate = 1;
         List<EducationDetailsDto> result = new ArrayList<>();
 
-        for (Block3DigitalEducation dataInfo: dataList) {
+        for (Block3DigitalEducation dataInfo: finalDataInfoList) {
 
             MonthDataDto monthDataDto = getMonthData(dataInfo.getRegion());
 

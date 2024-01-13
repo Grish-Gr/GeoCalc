@@ -50,16 +50,16 @@ public abstract class DataService {
 
     protected MonthDataDto getMonthData(String region) {
 
-        Optional<Block5> dataInfo = block5Repo.findByRegionOrderByYearResDesc(region);
+        List<Block5> dataInfo = block5Repo.findAllByRegionOrderByYearResDesc(region);
 
         if (dataInfo.isEmpty()) {
             return new MonthDataDto();
         } else {
             return MonthDataDto.builder()
-                    .monthSalary(new BigDecimal(dataInfo.get().getRealIncAver()))
-                    .monthExpense(new BigDecimal(dataInfo.get().getConsumSpend()))
-                    .indexPrice(dataInfo.get().getConsumPriceInd())
-                    .countPeopleMinSalary((long) dataInfo.get().getPopPoverty())
+                    .monthSalary(new BigDecimal(dataInfo.get(0).getRealIncAver()))
+                    .monthExpense(new BigDecimal(dataInfo.get(0).getConsumSpend()))
+                    .indexPrice(dataInfo.get(0).getConsumPriceInd())
+                    .countPeopleMinSalary((long) dataInfo.get(0).getPopPoverty())
                     .build();
         }
     }

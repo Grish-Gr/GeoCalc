@@ -12,9 +12,11 @@ public class Block5 {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
+  @Column(name = "Код")
   private long codeNumber;
+  @Column(name = "Region")
   private String region;
-  @Column(name = "year_res")
+  @Column(name = "Year_res")
   private long yearRes;
   @Column(name = "Fee_int")
   private long feeInt;

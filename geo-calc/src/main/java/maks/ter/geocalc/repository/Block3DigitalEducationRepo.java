@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface Block3DigitalEducationRepo extends JpaRepository<Block3DigitalEducation, Long> {
-    List<Block3DigitalEducation> findAllByProgramIgnoreCaseOrderByMinContractAsc(String program, Pageable pageable);
-    List<Block3DigitalEducation> findAllByProgramIgnoreCaseOrderByContractCountDesc(String program, Pageable pageable);
-    List<Block3DigitalEducation> findAllByProgramIgnoreCaseOrderByBudgetCountDesc(String program, Pageable pageable);
+    List<Block3DigitalEducation> findAllByProgramIgnoreCaseOrderByMinContractAsc(String program);
+    List<Block3DigitalEducation> findAllByProgramIgnoreCaseOrderByContractCountDesc(String program);
+    List<Block3DigitalEducation> findAllByProgramIgnoreCaseOrderByBudgetCountDesc(String program);
 }
