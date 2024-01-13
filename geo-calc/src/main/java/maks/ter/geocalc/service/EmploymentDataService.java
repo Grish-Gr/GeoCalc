@@ -50,7 +50,6 @@ public class EmploymentDataService extends DataService {
 
     public List<EmploymentDetailsDto> getDataList(EmploymentDto employmentDto) {
 
-        Pageable pageable = PageRequest.of(0, employmentDto.getMaxResult());
         List<EmploymentDetailsDto> result = new ArrayList<>();
 
         List<RegionData> dataList = employmentDto.getDataType() == EmploymentDataType.VACANCIES ?
@@ -62,7 +61,7 @@ public class EmploymentDataService extends DataService {
         );
 
         int rate = 1;
-        for (Map.Entry<String, List<RegionData>> regionData: dataListByRegion.entrySet()) {
+        for (Map.Entry<String, List<RegionData>> regionData: dataListByRegion.entrySet().stream().toList().subList(0, employmentDto.getMaxResult())) {
 
             DirectoryRegionsAndCities cityInfo = regionsAndCitiesRepo.findByRegion(regionData.getKey());
             MonthDataDto monthDataDto = getMonthData(regionData.getKey());
@@ -102,6 +101,10 @@ public class EmploymentDataService extends DataService {
             sum += regionData.getValue();
         }
 
+        if (resultData.isEmpty()) {
+            return null;
+        }
+
         return sum / resultData.size();
     }
 
@@ -119,6 +122,10 @@ public class EmploymentDataService extends DataService {
             sum += cityData.getValue();
         }
 
+        if (resultData.isEmpty()) {
+            return null;
+        }
+
         return sum / resultData.size();
     }
 
@@ -132,11 +139,16 @@ public class EmploymentDataService extends DataService {
             sum += regionData.getValue();
         }
 
+        if (resultData.isEmpty()) {
+            return null;
+        }
+
         return sum / resultData.size();
     }
 
     private Long getMiddleSalaryCapital(DirectoryRegionsAndCities regionData) {
-
+        System.out.println("<<<<<<<<<<<< mid sala cap");
+        System.out.println(regionData);
         if (regionData == null) {
             return null;
         }
@@ -147,6 +159,10 @@ public class EmploymentDataService extends DataService {
         Long sum = 0L;
         for (CityData cityData : resultData) {
             sum += cityData.getValue();
+        }
+        System.out.println(sum);
+        if (resultData.isEmpty()) {
+            return null;
         }
 
         return sum / resultData.size();
@@ -160,6 +176,10 @@ public class EmploymentDataService extends DataService {
         Long sum = 0L;
         for (RegionData regionData : resultData) {
             sum += regionData.getValue();
+        }
+
+        if (resultData.isEmpty()) {
+            return null;
         }
 
         return sum / resultData.size();
@@ -179,6 +199,10 @@ public class EmploymentDataService extends DataService {
             sum += cityData.getValue();
         }
 
+        if (resultData.isEmpty()) {
+            return null;
+        }
+
         return sum / resultData.size();
     }
 
@@ -192,7 +216,11 @@ public class EmploymentDataService extends DataService {
             sum *= regionData.getValue();
         }
 
-        return Math.sqrt(sum);
+        if (resultData.isEmpty()) {
+            return null;
+        }
+
+        return Math.sqrt(Math.abs(sum));
     }
 
     private Double getMiddleCountVacancyIndCapital(DirectoryRegionsAndCities regionData) {
@@ -207,6 +235,10 @@ public class EmploymentDataService extends DataService {
         Long sum = 1L;
         for (CityData cityData : resultData) {
             sum *= cityData.getValue();
+        }
+
+        if (resultData.isEmpty()) {
+            return null;
         }
 
         return Math.sqrt(sum);

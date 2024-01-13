@@ -42,7 +42,7 @@ public class EducationDataService extends DataService {
 
         List<Block3DigitalEducation> dataList;
         Pageable pageable = PageRequest.of(0, educationDto.getMaxResult());
-        System.out.println(educationDto.getEducationLevel().getDescription());
+
         if (educationDto.getPriority() == EdPriority.AMOUNT_CONTRACT) {
             dataList = block3DigitalEducationRepo.findAllByProgramIgnoreCaseOrderByMinContractAsc(educationDto.getEducationLevel().getCode(), pageable);
         } else if (educationDto.getPriority() == EdPriority.CONTRACT_COUNT) {
@@ -72,6 +72,7 @@ public class EducationDataService extends DataService {
                     .countPeopleMinSalary(monthDataDto.getCountPeopleMinSalary())
                     .build();
 
+            rate++;
             result.add(educationDetailsDto);
         }
 
