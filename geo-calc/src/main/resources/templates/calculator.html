@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Калькулятор</title>
 
-    <link src="http://localhost:8080/styles/css/calculator.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/styles/css/calculator.css}" rel="stylesheet" type="text/css"/>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <style>
         .table_amount_contract{
@@ -317,7 +317,8 @@
 </div>
 <div th:if="${typeTable == 'MIGRATION'}">
 
-    <table>
+    <table class="table_amount_contract">
+        <thead>
         <tr>
             <td>Рейтинг региона по индексу цифровизации</td>
             <td>Регион</td>
@@ -335,6 +336,7 @@
             <td>Индексы потребительских цен (декабрь к декабрю предыдущего года, в процентах)</td>
             <td>Численность населения с денежными доходами ниже величины прожиточного минимума/грацницы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
+        </thead>
         <tr th:each="item: ${listDataResult3}">
             <td th:text="${item.getRate()}">Рейтинг</td>
             <td th:text="${item.getRegion()}">Регион</td>
