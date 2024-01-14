@@ -49,7 +49,7 @@ public class MainApiController {
     }
 
 
-    @GetMapping("/convert-table")
+    /*@GetMapping("/convert-table")
     public @ResponseBody void convertTable(@RequestBody TablesDto tablesDto) throws IllegalAccessException, FileNotFoundException, UnsupportedEncodingException {
         Reflections reflections = new Reflections("maks.ter");
         Set<Class<?>> allClasses = reflections.getTypesAnnotatedWith(Entity.class);
@@ -120,7 +120,7 @@ public class MainApiController {
         }
 
         System.out.println("Complete import");
-    }
+    }*/
 
     private LocalDate getDateByField(Field field) {
         String dateInField = field.getName();
