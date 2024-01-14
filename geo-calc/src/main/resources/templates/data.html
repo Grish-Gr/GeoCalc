@@ -5,16 +5,28 @@
   <title>Данные</title>
   <link th:href="@{/styles/css/data.css}" rel="stylesheet" type="text/css"/>
 </head>
-<header class="main-header" th:include="layouts/base_header.html">
-
-</header>
 <body>
+<header class="main-header" th:include="layouts/base_header.html"></header>
 <div class="community-grid">
   <a>
     <a href="/data_base">База данных</a>
     <div class="grid-overlay"></div>
   </a>
 </div>
+
+<div class="community-page-wrapper">
+  <div class="community-grid">
+    <div class="content">
+      <img src="https://img.freepik.com/free-vector/file-searching-concept-illustration_114360-327.jpg?w=740&t=st=1705140890~exp=1705141490~hmac=588defad402baed4ec7487f4cde77dff94ba188049f8a0b9660c3f35db744f9e" width="304" height="304" alt="first_im" align="right" id="first_pic" class="first_picture">
+      <a>
+        <a href="/data_base">База данных</a>
+        <div class="grid-overlay"></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="main-footer" th:include="layouts/base_footer.html"></footer>
+
 </body>
 </html>
-

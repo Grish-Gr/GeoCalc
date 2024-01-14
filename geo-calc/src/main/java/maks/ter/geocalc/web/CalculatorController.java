@@ -53,7 +53,7 @@ public class CalculatorController {
     private String edCalculator(Model model, @RequestParam String educationLevel, @RequestParam String priority, @RequestParam int maxResult) {
 
         EducationDto educationDto = new EducationDto(
-            EdPriority.valueOf(priority), EducationLevel.valueOf(educationLevel), maxResult
+                EdPriority.valueOf(priority), EducationLevel.valueOf(educationLevel), maxResult
         );
 
         model.addAttribute("educationRequest", educationDto);

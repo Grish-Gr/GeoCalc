@@ -94,6 +94,8 @@ p {
     background-clip: padding-box;
     border: solid 8px transparent;
     border-radius: 0.8rem;
+    background: #fff;
+    background-clip: padding-box;
 
     &:before {
         content: "";
@@ -110,6 +112,7 @@ p {
 }
 
 .name_block {
+    max-height: 100px;
     font-family: "Arial", serif;
     color: #000000;
     text-align: center;

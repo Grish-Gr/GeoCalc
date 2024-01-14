@@ -1,7 +1,7 @@
 html, body {
     font-family: 'Arial',sans-serif;
-    /*font-size: 1rem;*/
-    /*font-weight: 200;*/
+    font-size: 1rem;
+    font-weight: 300;
     line-height: 100%;
     letter-spacing: normal;
     margin: 0;
@@ -67,13 +67,14 @@ styled-select::-ms-expand {
     color: #f39c12;
 }
 
-.container {
+/* .container {
     position : absolute;
     top: 50%;
     left : 50%;
     transform :
             translate(-50%,-50%);
 }
+*/
 
 fieldset {
     margin: 50px;
@@ -131,5 +132,59 @@ input[type="radio"]:checked::before {
     margin-bottom: 20px;
     text-align: center;
 }
+/*.get-result{*/
+/*    font-family: 'Arial',sans-serif;*/
+/*    margin-top: 30px;*/
+/*    width: 250px;*/
+/*    text-decoration: none;*/
+/*    display: inline-flex;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: nowrap;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    font-style: normal;*/
+/*    font-weight: 700;*/
+/*    font-size: 14px;*/
+/*    line-height: 19px;*/
+/*    color: #f39c12;*/
+/*    box-sizing: border-box;*/
+/*    padding: 11px 22px;*/
+/*    border-radius: 8px;*/
+/*    background: #34495e;*/
+/*}*/
 
+.get-result{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+}
 
+.button{
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    user-select: none;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+.button-click{
+    background-color: #2b2d42;
+    border: 1px solid #2b2d42;
+    color: #FDB729;
+}
+
+.button-click:hover{
+    opacity: .8;
+}
+
+.button a{
+    font-size: 16px;
+    text-transform: capitalize;
+    text-decoration: none;
+    font-weight: 300;
+    color: #FFDD55;
+    display: block;
+}
