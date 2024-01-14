@@ -38,9 +38,15 @@
             if (href.toString().includes('em-calculator')) {
                 $('#education-form').hide()
                 $('#employee-form').show()
-            } else {
+                $('#di-form').hide()
+            } else if (href.toString().includes('ed-calculator')) {
                 $('#education-form').show()
                 $('#employee-form').hide()
+                $('#di-form').hide()
+            } else {
+                $('#education-form').hide()
+                $('#employee-form').hide()
+                $('#di-form').show()
             }
 
             $('#purpose-calc').on('change', function (e) {
@@ -49,14 +55,21 @@
                 if (valueSelected == 'EDUCATION') {
                     $('#education-form').show()
                     $('#employee-form').hide()
-                } else {
+                    $('#di-form').hide()
+                } else if (valueSelected == 'EMPLOYEE') {
                     $('#education-form').hide()
                     $('#employee-form').show()
+                    $('#di-form').hide()
+                } else {
+                    $('#education-form').hide()
+                    $('#employee-form').hide()
+                    $('#di-form').show()
                 }
             });
         })
 
     </script>
+
 
 </head>
 <header class="main-header" th:include="layouts/base_header.html">
@@ -99,6 +112,17 @@
             </select>
 
             <input form="em-calculator" type="submit" value="Поиск"/>
+        </form>
+    </div>
+
+    <div id="di-form">
+        <form id="di-calculator" th:object="${migrationInfoRequest}" th:action="@{/di-calculator}" method="get">
+
+            <select th:field="*{maxResult}">
+                <option th:each="item : ${listMaxResults}" th:value="${item.getValue()}" th:text="${item.getDescription()}"></option>
+            </select>
+
+            <input form="di-calculator" type="submit" value="Поиск"/>
         </form>
     </div>
 
@@ -289,6 +313,45 @@
             <td th:text="${item.getCountPeopleMinSalary()}">Численность населения с денежными доходами ниже величины прожиточного минимума/ границы бедности (в процентах от общей численности населения субъекта)</td>
         </tr>
         </tbody>
+    </table>
+</div>
+<div th:if="${typeTable == 'MIGRATION'}">
+
+    <table>
+        <tr>
+            <td>Рейтинг региона по индексу цифровизации</td>
+            <td>Регион</td>
+            <td>Значение индекса цифровизации и региона</td>
+
+            <td>Значение индекса цифровизации населения региона</td>
+            <td>Значение индекса цифровизации бизнеса региона</td>
+            <td>Индекс цифровых профессий</td>
+
+            <td>Общий уровень развития образовательной среды</td>
+
+            <td>Общий уровень жизни в регионе</td>
+            <td>Среднедушевые денежные доходы населения (в месяц; рублей)</td>
+            <td>Потребительские расходы в срднем на душу насления (в месяц; рублей)</td>
+            <td>Индексы потребительских цен (декабрь к декабрю предыдущего года, в процентах)</td>
+            <td>Численность населения с денежными доходами ниже величины прожиточного минимума/грацницы бедности (в процентах от общей численности населения субъекта)</td>
+        </tr>
+        <tr th:each="item: ${listDataResult3}">
+            <td th:text="${item.getRate()}">Рейтинг</td>
+            <td th:text="${item.getRegion()}">Регион</td>
+            <td th:text="${item.getDiRegion()}"></td>
+
+            <td th:text="${item.getDiPeople()}"></td>
+            <td th:text="${item.getDiBusiness()}"></td>
+            <td th:text="${item.getDiProfession()}"></td>
+
+            <td th:text="${item.getLevelEducation()}"></td>
+
+            <td th:text="${item.getLevelLive()}">Числен насел</td>
+            <td th:text="${item.getMonthSalary()}">Среднедуш</td>
+            <td th:text="${item.getMonthExpense()}">Индексы потреб</td>
+            <td th:text="${item.getIndexPrice()}">Числен насел</td>
+            <td th:text="${item.getCountPeopleMinSalary()}">Числен насел</td>
+        </tr>
     </table>
 </div>
 
