@@ -1,22 +1,25 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Add CSS and JS to Thymeleaf</title>
   <link href="http://localhost:8080/styles/css/base_header_layout.css" rel="stylesheet" type="text/css"/>
-  <div class="base-header">
-    <div class="content-header">
-      <nav class="wrap">
-        <ul class="topmenu">
+</head>
+
+<body>
+<header class="header">
+  <div class="container">
+    <div class="menu">
+      <nav class="menu">
+        <ul>
           <li><a href="/info_project">О ПРОЕКТЕ</a></li>
-          <li><a href="/data">ДАННЫЕ<i class="fa fa-angle-down"></i></a>
-            <ul class="submenu">
+          <li><a href="/data">ДАННЫЕ</a>
+            <ul class="dropdown">
               <li><a href="/data_base">БАЗА ДАННЫХ</a></li>
             </ul>
           </li>
-          <li><a href="/service">СЕРВИСЫ<i class="fa fa-angle-down"></i></a>
-            <ul class="submenu">
+          <li><a href="/service">СЕРВИСЫ</a>
+            <ul class="dropdown">
               <li><a href="/questionnaire">КАЛЬКУЛЯТОР</a></li>
             </ul>
           </li>
@@ -28,12 +31,7 @@
         </ul>
       </nav>
     </div>
-
-    <div class="info-header">
-
-    </div>
-
   </div>
-</head>
+</header>
 </body>
 </html>

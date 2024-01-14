@@ -2,32 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add CSS and JS to Thymeleaf</title>
-    <link href="/base_footer_layout.css" rel="stylesheet" type="text/css"/>
+    <link href="http://localhost:8080/styles/css/base_footer_layout.css" rel="stylesheet" type="text/css"/>
 </head>
-<div class="base-footer">
+<body>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col">
+                <h4>СВЯЗАТЬСЯ С НАМИ</h4>
+                <ul>
+                    <li><a href="">kseniaagolubr@gmail.com</a></li>
+                    <li><a href="">v.a.akberdina@gmail.com</a></li>
+                    <li><a href="">m.vlasov@gmail.com</a></li>
+                </ul>
+            </div>
 
-    <div class="content-footer">
-        <div>
-            <h3>Что-то тут</h3>
-        </div>
+            <div class="footer-col">
+                <h4>ДОКУМЕНТЫ</h4>
+                <ul>
+                    <li><a href="">Обработка персональных данных</a></li>
+                    <li><a href="">Соглашение с пользователями</a></li>
+                    <li><a href="">Правила использования информации</a></li>
+                </ul>
+            </div>
 
-        <div>
-            <h3>Здесь тоже</h3>
-        </div>
-
-        <div>
-            <h3>лалалалалла</h3>
-        </div>
-
-        <div>
-            <h3>kzkzkzkzk</h3>
+            <div class="footer-col">
+                <h4>ПОМОЩЬ</h4>
+                <ul>
+                    <li><a href="">Задать вопрос: regsciencegrid@uiec.ru</a></li>
+                    <li><a href="">Техподдержка: support-rgs@uiec.ru</a></li>
+                </ul>
+            </div>
         </div>
     </div>
+</footer>
 
-    <div class="info-footer">
+</body>
 
-    </div>
-
-</div>
 </html>

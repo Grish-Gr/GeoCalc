@@ -5,10 +5,13 @@
     <title>Калькулятор</title>
     <link href="http://localhost:8080/styles/css/questionnaire.css" rel="stylesheet" type="text/css">
 </head>
+
 <header class="main-header" th:include="layouts/base_header.html">
 
 </header>
+
 <body>
+
 <div class="wrapper">
     <form class="user_portrait">
         <div>
@@ -82,15 +85,21 @@
             </div>
 
             <div class="get-result">
-                <a href="/calculator">Получить результат</a>
+                <button class="button button-click">
+                    <a href="/calculator">Получить результат</a>
+                </button>
             </div>
         </div>
-
     </form>
 </div>
 
 <script src="http://localhost:8080/js/jquery3.7.1.js"></script>
 <script src="http://localhost:8080/js/calculator.js"></script>
 </body>
+
+<footer class="main-footer" th:include="layouts/base_footer.html">
+
+</footer>
+
 </html>
 
