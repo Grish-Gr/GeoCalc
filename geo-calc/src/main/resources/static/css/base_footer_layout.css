@@ -26,6 +26,9 @@
 /*.content-footer > div:first-child {*/
 /*    width: 30%;*/
 /*}*/
+body {
+    min-height: 100vh;
+}
 
 *{
     margin:0;
